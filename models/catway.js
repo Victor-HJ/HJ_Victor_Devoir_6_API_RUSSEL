@@ -6,6 +6,7 @@ const Catway = new Schema ({
         type : Number,
         trim : true,
         immutable : true,
+        unique : true,
         required : [true, 'Chaque catway doit avoir un numéro']
     },
 
