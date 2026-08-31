@@ -13,4 +13,6 @@ router.put('/:email', service.updateUser);
 
 router.delete('/:email', service.deleteUser);
 
+router.post('/authenticate', service.authenticate);
+
 module.exports = router;

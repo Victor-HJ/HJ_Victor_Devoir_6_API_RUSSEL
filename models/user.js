@@ -31,14 +31,14 @@ const User = new Schema ({
     timestamps : true
 });
 
-/* User.pre('save', function(next) {
-    if (!this.isModified('password')) {
-        return next();
+User.pre('save', function() {
+
+    if(!this.isModified('password')) {
+        return;
     }
 
     this.password = bcrypt.hashSync(this.password, 10);
 
-    next();
 });
- */
+
 module.exports = mongoose.model('User', User);

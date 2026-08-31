@@ -1,4 +1,60 @@
 const User = require('../models/user');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
+exports.authenticate = async (req, res, next) => {
+
+    const {email, password} = req.body;
+
+    try {
+
+        let user = await User.findOne({email : email});
+
+        if(user) {
+
+            bcyrpt.compare(password, user.password, function(err, res) {
+
+                if(err) {
+
+                    throw new Error({err : err.message});
+
+                }
+
+                if(res) {
+
+                    delete user._doc.password;
+
+                    const expireIn = 24 * 60 * 60;
+                    const token = jwt.sign({
+                        user : user
+                    },
+                    SECRET_KEY,
+                    {
+                        expiresIn: expireIn
+                    });
+
+                    res.header('Authorization', 'Bearer' + token);
+
+                    return res.status(200).json('user authenticated');
+
+                }
+
+                return res.status(403).json("Informations de connexion incorrectes");
+
+            });
+
+        } else {
+
+            return res.status(404).json("L'utilisateur n'existe pas");
+
+        }
+        
+    } catch (error) {
+
+        return res.status(500).json({error : error.message});
+
+    }
+}
 
 exports.getAllUsers = async (req, res, next) => {
 
