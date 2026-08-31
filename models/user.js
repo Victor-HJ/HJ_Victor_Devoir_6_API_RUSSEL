@@ -16,6 +16,7 @@ const User = new Schema ({
         type : String, 
         trim : true,
         lowercase : true,
+        immutable : true,
         unique : true,
         required : [true, 'Un email est requis pour chaque compte']
     },
@@ -30,7 +31,7 @@ const User = new Schema ({
     timestamps : true
 });
 
-User.pre('save', function(next) {
+/* User.pre('save', function(next) {
     if (!this.isModified('password')) {
         return next();
     }
@@ -39,5 +40,5 @@ User.pre('save', function(next) {
 
     next();
 });
-
+ */
 module.exports = mongoose.model('User', User);

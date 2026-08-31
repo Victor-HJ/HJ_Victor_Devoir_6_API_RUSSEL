@@ -3,10 +3,14 @@ const router = express.Router();
 
 const service = require('../controllers/catways');
 
-router.get('/:id', service.getById);
+router.get('/:id', service.getCatwayById);
 
-router.get('/', service.getAll);
+router.get('/', service.getAllCatways);
 
-router.post('/', service.create);
+router.post('/', service.createCatway);
+
+router.put('/:id', service.updateCatway);
+
+router.delete('/:id', service.deleteCatway);
 
 module.exports = router;
