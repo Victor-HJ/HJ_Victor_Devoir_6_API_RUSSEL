@@ -107,22 +107,22 @@ exports.updateCatway = async (req, res, next) => {
 
     try {
 
-        const catwayToUpdate = await Catway.findOne({catwayNumber : parseInt(id)});
+        const updatedCatway = await Catway.findOne({catwayNumber : parseInt(id)});
 
-        if(!catwayToUpdate) {
+        if(!updatedCatway) {
 
             return res.status(404).json('Catway non trouvé');
 
         } else {
 
-            if (catwayToUpdate.catwayNumber !== parseInt(catwayNumber) || catwayToUpdate.catwayType !==catwayType) {
+            if (updatedCatway.catwayNumber !== parseInt(catwayNumber) || updatedCatway.catwayType !==catwayType) {
                 return res.status(400).json("Seul l'état du catway peut être modifié")
 
             } else {
 
-                catwayToUpdate.catwayState = catwayState;
+                updatedCatway.catwayState = catwayState;
 
-                const updatedCatway = await catwayToUpdate.save();
+                await updatedCatway.save();
 
                 return res.status(200).json(updatedCatway);
             }

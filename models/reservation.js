@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const Reservation = new Schema ({
     catwayNumber : {
         type : Number, 
+        immutable : true,
         required : [true, 'Un catway doit être associé à la réservation'],
         ref : 'Catway'
     },
@@ -30,13 +31,10 @@ const Reservation = new Schema ({
     endDate : {
         type : Date,
         required : [true, 'Une date de fin de réservation est requise'],
-        validate : {
-            validator : function(date) {
-                return date > this.startDate;
-            },
-            message : 'La date de fin ne peut être antérieure à la date de début'
-        }
     }
+
 }, {
     timestamps : true
 })
+
+module.exports = mongoose.model('Reservation', Reservation);
