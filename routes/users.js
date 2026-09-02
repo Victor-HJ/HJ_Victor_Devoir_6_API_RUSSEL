@@ -3,16 +3,20 @@ const router = express.Router();
 
 const service = require('../controllers/users');
 
-router.get('/:email', service.getUserByEmail);
+const private = require('../middlewares/private');
 
-router.get('/', service.getAllUsers);
+router.get('/:email', private.checkJWT, service.getUserByEmail);
 
-router.post('/', service.createUser);
+router.get('/', private.checkJWT, service.getAllUsers);
 
-router.put('/:email', service.updateUser);
+router.post('/', private.checkJWT, service.createUser);
 
-router.delete('/:email', service.deleteUser);
+router.put('/:email', private.checkJWT, service.updateUser);
+
+router.delete('/:email', private.checkJWT, service.deleteUser);
 
 router.post('/authenticate', service.authenticate);
+
+router.get('/logout', service.logout);
 
 module.exports = router;

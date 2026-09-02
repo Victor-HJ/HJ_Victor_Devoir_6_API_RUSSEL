@@ -8,52 +8,55 @@ exports.authenticate = async (req, res, next) => {
 
     try {
 
-        let user = await User.findOne({email : email});
+        const user = await User.findOne({email : email});
 
-        if(user) {
-
-            bcyrpt.compare(password, user.password, function(err, res) {
-
-                if(err) {
-
-                    throw new Error({err : err.message});
-
-                }
-
-                if(res) {
-
-                    delete user._doc.password;
-
-                    const expireIn = 24 * 60 * 60;
-                    const token = jwt.sign({
-                        user : user
-                    },
-                    SECRET_KEY,
-                    {
-                        expiresIn: expireIn
-                    });
-
-                    res.header('Authorization', 'Bearer' + token);
-
-                    return res.status(200).json('user authenticated');
-
-                }
-
-                return res.status(403).json("Informations de connexion incorrectes");
-
-            });
-
-        } else {
+        if (!user) {
 
             return res.status(404).json("L'utilisateur n'existe pas");
 
         }
-        
+
+        const validPassword = await bcrypt.compare(password, user.password);
+
+        if(!validPassword) {
+
+            return res.status(403).json ('Informations de connexion incorrectes');
+
+        }
+
+        delete user._doc.password;
+
+        const expireIn = 24 * 60 * 60;
+        const token = jwt.sign(
+            {user : user},
+            process.env.SECRET_KEY,
+            {expiresIn : expireIn}
+        );
+
+        res.header('Authorization', 'Bearer ' + token);
+        return res.status(200).json({
+            message : 'Bienvenue',
+            token : token, 
+            user : {
+                id : user._id,
+                email : user.email,
+                username : user.username
+            }
+        });
+
     } catch (error) {
 
-        return res.status(500).json({error : error.message});
+        return res.status(500).json('Erreur lors de la tentative de connexion');
 
     }
+}
+
+exports.logout = async (req, res, next) => {
+
+    res.clearCookie('token');
+
+    return res.status(200).json('Vous vous êtes déconnecté');
+
 }
 
 exports.getAllUsers = async (req, res, next) => {

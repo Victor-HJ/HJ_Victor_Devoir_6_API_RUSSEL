@@ -3,16 +3,18 @@ const router = express.Router();
 
 const service = require('../controllers/reservations');
 
-router.get('/', service.getAllReservations);
+const private = require('../middlewares/private');
 
-router.get('/:id/reservations', service.getReservationsByCatway);
+router.get('/', private.checkJWT, service.getAllReservations);
 
-router.get('/:id/reservations/:idReservation', service.getReservationById);
+router.get('/:id/reservations', private.checkJWT, service.getReservationsByCatway);
 
-router.post('/:id/reservations', service.createReservation);
+router.get('/:id/reservations/:idReservation', private.checkJWT, service.getReservationById);
 
-router.put('/:id/reservations/:idReservation', service.updateReservation);
+router.post('/:id/reservations', private.checkJWT, service.createReservation);
 
-router.delete('/:id/reservations/:idReservation', service.deleteReservation);
+router.put('/:id/reservations/:idReservation', private.checkJWT, service.updateReservation);
+
+router.delete('/:id/reservations/:idReservation', private.checkJWT, service.deleteReservation);
 
 module.exports = router;

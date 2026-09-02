@@ -3,14 +3,16 @@ const router = express.Router();
 
 const service = require('../controllers/catways');
 
-router.get('/:id', service.getCatwayById);
+const private = require('../middlewares/private');
 
-router.get('/', service.getAllCatways);
+router.get('/:id', private.checkJWT, service.getCatwayById);
 
-router.post('/', service.createCatway);
+router.get('/', private.checkJWT, service.getAllCatways);
 
-router.put('/:id', service.updateCatway);
+router.post('/', private.checkJWT, service.createCatway);
 
-router.delete('/:id', service.deleteCatway);
+router.put('/:id', private.checkJWT, service.updateCatway);
+
+router.delete('/:id', private.checkJWT, service.deleteCatway);
 
 module.exports = router;
