@@ -9,14 +9,14 @@ router.get('/:email', private.checkJWT, service.getUserByEmail);
 
 router.get('/', private.checkJWT, service.getAllUsers);
 
+router.get('/auth/logout', private.checkJWT, service.logout);
+
 router.post('/', private.checkJWT, service.createUser);
 
 router.put('/:email', private.checkJWT, service.updateUser);
 
 router.delete('/:email', private.checkJWT, service.deleteUser);
 
-router.post('/authenticate', service.authenticate);
-
-router.get('/logout', service.logout);
+router.post('/auth/authenticate', private.checkJWT, service.authenticate);
 
 module.exports = router;
