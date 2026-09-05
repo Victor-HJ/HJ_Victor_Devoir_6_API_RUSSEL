@@ -1,18 +1,50 @@
+/**
+ * @fileoverview Express router for catways
+ * @module routes/catways
+ * @requires controllers/catways
+ * @requires middlewares/private
+ */
+
 const express = require('express');
 const router = express.Router();
 
 const service = require('../controllers/catways');
 
-const private = require('../middlewares/private');
+const secure = require('../middlewares/private');
 
-router.get('/:id', private.checkJWT, service.getCatwayById);
+/**
+ * Route to get a catway by its number
+ * @name GET /api/catways/:id
+ */
 
-router.get('/', private.checkJWT, service.getAllCatways);
+router.get('/:id', secure.checkJWT, service.getCatwayById);
 
-router.post('/', private.checkJWT, service.createCatway);
+/**
+ * Route to get all catways
+ * @name GET /api/catways
+ */
 
-router.put('/:id', private.checkJWT, service.updateCatway);
+router.get('/', secure.checkJWT, service.getAllCatways);
 
-router.delete('/:id', private.checkJWT, service.deleteCatway);
+/**
+ * Route to create a catway
+ * @name POST /api/catways
+ */
+
+router.post('/', secure.checkJWT, service.createCatway);
+
+/**
+ * Route to update a catway
+ * @name PUT /api/catways/:id
+ */
+
+router.put('/:id', secure.checkJWT, service.updateCatway);
+
+/**
+ * Route to delete a catway
+ * @name DELETE /api/catways/:id
+ */
+
+router.delete('/:id', secure.checkJWT, service.deleteCatway);
 
 module.exports = router;

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: catways.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: catways.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/** 
+ * @fileoverview Catways controller
+ * @module controllers/catways
+ */
+
+const Catway = require('../models/catway');
+
+/**
+ * Gets every catway
+ * @async
+ * @function getAllCatways
+ * @param {Array} req Express request
+ * @param {Array} res Express reponses
+ * @param {Array} next Getting out of the function
+ * @returns {Array} Catways list
+ */
+
+exports.getAllCatways = async (req, res, next) => {
+
+    try{
+        
+        const allCatways = await Catway.find();
+
+        allCatways.sort((a, b) => b.catwayNumber - a.catwayNumber); /** sorts catways in a decreasing numerical order */
+
+        if(allCatways) {
+            
+            return res.status(200).json(allCatways);
+
+        }
+
+        return res.status(404).json('Aucun catway trouvé');
+
+    } catch (error) {
+
+        return res.status(500).json('Erreur serveur lors de la récupération des catways');
+        
+    }
+}
+
+/**
+ * Get one specific catway found by its number
+ * @async
+ * @function getCatwayById
+ * @param {Object} req Express request
+ * @param {Object} res Express reponses
+ * @param {Object} next Getting out of the function
+ * @returns {Object} One catway
+ */
+
+exports.getCatwayById = async (req, res, next) => {
+
+    const id = req.params.id
+
+    try {
+
+        let catway = await Catway.findOne({catwayNumber : parseInt(id)});
+
+        if(catway) {
+
+            return res.status(200).json(catway);
+        }
+
+        return res.status(404).json('Aucun catway avec ce numéro trouvé');
+
+    } catch (error) {
+
+        return res.status(500).json('Erreur serveur lors de la récupération de ce catway');
+
+    }
+}
+
+/**
+ * Creates a catway
+ * @async
+ * @function createCatway
+ * @param {Object} req Express request
+ * @param {Object} res Express reponses
+ * @param {Object} next Getting out of the function
+ * @returns {Object} The created catway
+ */
+
+exports.createCatway = async (req, res, next) => {
+
+    const {catwayNumber, catwayType, catwayState} = req.body;
+
+    if (catwayNumber === undefined || catwayType === undefined || catwayState === undefined) {
+
+        return res.status(400).json('Tous les champs sont requis');
+    }
+
+    if(catwayNumber.trim() === '' || catwayType.trim() === '' || catwayState.trim() === '') {
+
+        return res.status(400).json('Aucun champ ne peut être vide');
+
+    }
+
+    if (catwayType !== 'short' &amp;&amp; catwayType !== 'long') {
+
+        return res.status(400).json('Un catway ne peut être que de type "long" ou "short"');
+
+    } 
+  
+    try {
+
+        const preExistingCatway = await Catway.findOne({catwayNumber});
+
+        if(preExistingCatway) {
+
+            return res.status(409).json('Un catway est déjà associé à ce numéro')
+
+        } else {
+
+            const newCatway = new Catway({
+                catwayNumber,
+                catwayType,
+                catwayState
+            });
+
+            await newCatway.save();
+
+            return res.status(201).json(newCatway);
+        }
+
+    } catch(error) {
+
+        return res.status(500).json('Erreur serveur lors de la création du catway');
+
+    }
+}
+
+/**
+ * Updates a catway
+ * @async
+ * @function updateCatway
+ * @param {Object} req Express request
+ * @param {Object} res Express reponses
+ * @param {Object} next Getting out of the function
+ * @returns {Object} The updated catway
+ */
+
+exports.updateCatway = async (req, res, next) => {
+
+    const {catwayState, catwayNumber, catwayType} = req.body;
+    const id = req.params.id
+
+    if(catwayState === undefined || catwayState.trim() === '') {
+
+        return res.status(400).json("L'état du catway doit être renseigné et celui-ci ne peut être vide");
+
+    }
+
+    try {
+
+        const updatedCatway = await Catway.findOne({catwayNumber : parseInt(id)});
+
+        if(!updatedCatway) {
+
+            return res.status(404).json('Catway non trouvé');
+
+        } else {
+
+            if (updatedCatway.catwayNumber !== parseInt(catwayNumber) || updatedCatway.catwayType !==catwayType) {
+                return res.status(400).json("Seul l'état du catway peut être modifié")
+
+            } else {
+
+                updatedCatway.catwayState = catwayState;
+
+                await updatedCatway.save();
+
+                return res.status(200).json(updatedCatway);
+            }
+        }
+
+    } catch (error) {
+
+        return res.status(500).json('Erreur serveur lors de la modification du catway');
+
+    }
+}
+
+/**
+ * Delete a catway
+ * @async
+ * @function deleteCatway
+ * @param {Object} req Express request
+ * @param {Object} res Express reponses
+ * @param {Object} next Getting out of the function
+ * @returns {Object} A message notifying of the successful catway deletion
+ */
+
+
+exports.deleteCatway = async (req, res, next) => {
+
+    const id = req.params.id;
+
+    try {
+
+        const catwayToDelete = await Catway.findOne({catwayNumber : parseInt(id)});
+
+        if(!catwayToDelete) {
+
+            return res.status(404).json("Le catway que vous voulez supprimer n'a pas été trouvé");
+
+        } else {
+
+            await catwayToDelete.deleteOne();
+
+            return res.status(200).json('Le catway a été supprimé'); /** 200 allows a message, 204 doesn't */
+
+        }
+
+    } catch(error) {
+
+        return res.status(500).json({error : error.message});
+
+    }
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-controllers_catways.html">controllers/catways</a></li><li><a href="module-controllers_reservations.html">controllers/reservations</a></li><li><a href="module-controllers_users.html">controllers/users</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Sat Sep 05 2026 14:22:59 GMT+0200 (heure d’été d’Europe centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: controllers/reservations.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: controllers/reservations.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * @fileoverview Reservations controller
  * @module controllers/reservations
  */
@@ -7,9 +35,9 @@ const Reservation = require('../models/reservation');
 const Catway = require('../models/catway');
 
 /**
- * GET ALL RESERVATIONS <br><br>
+ * GET ALL RESERVATIONS &lt;br>&lt;br>
  * 
- * Fetch all reservations from the database and sort them by catway number (in an increasing order) <br><br>
+ * Fetch all reservations from the database and sort them by catway number (in an increasing order) &lt;br>&lt;br>
  * 
  * - Check if the returned array is empty (404)
  * 
@@ -46,9 +74,9 @@ exports.getAllReservations = async (req, res, next) => {
 }
 
 /**
- * GET ALL RESERVATIONS FOR A SPECIFIC CATWAY <br><br>
+ * GET ALL RESERVATIONS FOR A SPECIFIC CATWAY &lt;br>&lt;br>
  * 
- * Get all the reservations associated to a catway by finding the catwayNumber <br><br>
+ * Get all the reservations associated to a catway by finding the catwayNumber &lt;br>&lt;br>
  * 
  * - Check if the returned array is empty (404)
  * 
@@ -87,9 +115,9 @@ exports.getReservationsByCatway = async (req, res, next) => {
 }
 
 /**
- * GET ONE SPECIFIC RESERVATION <br><br>
+ * GET ONE SPECIFIC RESERVATION &lt;br>&lt;br>
  * 
- * Get a reservation by its ID <br><br>
+ * Get a reservation by its ID &lt;br>&lt;br>
  * 
  * - Check if reservation exists (404)
  * 
@@ -129,12 +157,12 @@ exports.getReservationById = async (req, res, next) => {
 }
 
 /**
- * CREATE A RESERVATION <br><br>
+ * CREATE A RESERVATION &lt;br>&lt;br>
  * 
- * - Check if mandatory fields are missing (client and boat names | starting and ending dates) (400) <br>
- * - Check if client and boat names are valid (both needs at least 3 characters) (400) <br>
- * - Check if end date isn't anterior to start date (400) <br>
- * - Check if the requested catway exists (404) <br>
+ * - Check if mandatory fields are missing (client and boat names | starting and ending dates) (400) &lt;br>
+ * - Check if client and boat names are valid (both needs at least 3 characters) (400) &lt;br>
+ * - Check if end date isn't anterior to start date (400) &lt;br>
+ * - Check if the requested catway exists (404) &lt;br>
  * - Check if there are any conflicts between booking dates and already existing bookings (409)
  * 
  * @async
@@ -160,13 +188,13 @@ exports.createReservation = async (req, res, next) => {
 
         }
 
-        if (clientName.length < 3 || boatName.length < 3) {
+        if (clientName.length &lt; 3 || boatName.length &lt; 3) {
 
         return res.status(400).json('Le nom du client et du navire doivent faire au moins 3 caractères');
 
         }
 
-        if(endDate < startDate) {
+        if(endDate &lt; startDate) {
 
         return res.status(400).json('La date de fin ne peut être antérieure à la date de début');
 
@@ -214,12 +242,12 @@ exports.createReservation = async (req, res, next) => {
 
 
 /**
- * UPDATE A RESERVATION <br><br>
+ * UPDATE A RESERVATION &lt;br>&lt;br>
  * 
- * - Check if every required field is here (startDate and endDate) (400) <br>
- * - Check if endDate isn't anterior to startDate (400) <br>
- * - Check if clientName and boatName are being modified (400) <br>
- * - Check if reservation to update exists (404) <br>
+ * - Check if every required field is here (startDate and endDate) (400) &lt;br>
+ * - Check if endDate isn't anterior to startDate (400) &lt;br>
+ * - Check if clientName and boatName are being modified (400) &lt;br>
+ * - Check if reservation to update exists (404) &lt;br>
  * - Check if new desired dates are not in direct conflict with existing reservations (the one to update excluded) (409)
  * 
  * @async
@@ -245,7 +273,7 @@ exports.updateReservation = async (req, res, next) => {
 
         }
 
-        if(endDate < startDate) {
+        if(endDate &lt; startDate) {
 
             return res.status(400).json('La date de fin ne peut être antérieure à la date de début')
 
@@ -297,9 +325,9 @@ exports.updateReservation = async (req, res, next) => {
 }
 
 /**
- * DELETE A RESERVATION <br><br>
+ * DELETE A RESERVATION &lt;br>&lt;br>
  * 
- * Use the ID of the reservation to find it <br><br>
+ * Use the ID of the reservation to find it &lt;br>&lt;br>
  * 
  * -Check if reservation exists (404)
  * 
@@ -339,4 +367,26 @@ exports.deleteReservation = async (req, res, next) => {
         return res.status(500).json('Erreur lors de la tentative de suppression');
 
     }
-}
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-controllers_catways.html">controllers/catways</a></li><li><a href="module-controllers_reservations.html">controllers/reservations</a></li><li><a href="module-controllers_users.html">controllers/users</a></li><li><a href="module-middlewares_private.html">middlewares/private</a></li><li><a href="module-routes_catways.html">routes/catways</a></li><li><a href="module-routes_reservations.html">routes/reservations</a></li><li><a href="module-routes_users.html">routes/users</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Sat Sep 05 2026 16:44:37 GMT+0200 (heure d’été d’Europe centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

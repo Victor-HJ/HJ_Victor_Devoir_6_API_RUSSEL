@@ -1,22 +1,56 @@
+/**
+ * @fileoverview Express router for users
+ * @module routes/users
+ * @requires controllers/users
+ * @requires middlewares/private
+ * 
+ */
+
+
 const express = require('express');
 const router = express.Router();
 
 const service = require('../controllers/users');
 
-const private = require('../middlewares/private');
+const secure = require('../middlewares/private');
 
-router.get('/:email', private.checkJWT, service.getUserByEmail);
+/**
+ * Route to get a user by email
+ * @name GET /api/users/:email
+ */
 
-router.get('/', private.checkJWT, service.getAllUsers);
+router.get('/:email', secure.checkJWT, service.getUserByEmail);
 
-router.get('/auth/logout', private.checkJWT, service.logout);
+/**
+ * Route to get all users
+ * @name GET /api/users
+ */
 
-router.post('/', private.checkJWT, service.createUser);
+router.get('/', secure.checkJWT, service.getAllUsers);
 
-router.put('/:email', private.checkJWT, service.updateUser);
+router.get('/auth/logout', service.logout);
 
-router.delete('/:email', private.checkJWT, service.deleteUser);
+/**
+ * Route to create a user
+ * @name POST /api/users
+ */
 
-router.post('/auth/authenticate', private.checkJWT, service.authenticate);
+router.post('/', secure.checkJWT, service.createUser);
+
+/** 
+ * Route to update a user
+ * @name PUT /api/users/:email
+ */
+
+router.put('/:email', secure.checkJWT, service.updateUser);
+
+/**
+ * Route to delete a user
+ * @name DELETE /api/users/:email
+ */
+
+router.delete('/:email', secure.checkJWT, service.deleteUser);
+
+router.post('/auth/authenticate', service.authenticate);
 
 module.exports = router;

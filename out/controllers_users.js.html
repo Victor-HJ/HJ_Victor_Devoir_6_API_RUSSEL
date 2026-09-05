@@ -1,4 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: controllers/users.js</title>
 
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: controllers/users.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>
 /**
  * @fileoverview Users controller
  * @module controllers/users
@@ -68,9 +96,9 @@ exports.logout = async (req, res, next) => {
 }
 
 /**
- * GET ALL USERS<br><br>
+ * GET ALL USERS&lt;br>&lt;br>
  * 
- * Sort users alphabetically <br><br>
+ * Sort users alphabetically &lt;br>&lt;br>
  * 
  * - Check if returned array is empty (404)
  * 
@@ -109,9 +137,9 @@ exports.getAllUsers = async (req, res, next) => {
 }
 
 /**
- * GET ONE USER <br><br>
+ * GET ONE USER &lt;br>&lt;br>
  * 
- * Use user email <br><br>
+ * Use user email &lt;br>&lt;br>
  * 
  * - Check if user exists (404)
  * 
@@ -149,13 +177,13 @@ exports.getUserByEmail = async (req, res, next) => {
 }
 
 /**
- * CREATE ONE USER <br><br>
+ * CREATE ONE USER &lt;br>&lt;br>
  * 
- * - Check if required fields are here (username / email / password) (400) <br>
- * - Check if email field isn't empty by trimming (400) <br>
- * - Check if username length is greater than 3 and lesser than 20 characters (400) <br>
- * - Check if password length is greater than 8 characters (400) <br>
- * - Check if username is already taken (409) <br>
+ * - Check if required fields are here (username / email / password) (400) &lt;br>
+ * - Check if email field isn't empty by trimming (400) &lt;br>
+ * - Check if username length is greater than 3 and lesser than 20 characters (400) &lt;br>
+ * - Check if password length is greater than 8 characters (400) &lt;br>
+ * - Check if username is already taken (409) &lt;br>
  * - Check if email is already taken (409)
  * 
  * @async
@@ -186,13 +214,13 @@ exports.createUser = async (req, res, next) => {
 
         }
 
-        if(username.length < 3 || username.length > 20) {
+        if(username.length &lt; 3 || username.length > 20) {
 
         return res.status(400).json("Le nom d'utilisateur doit faire entre 3 et 20 caractères"); 
 
         }
 
-        if(password.length < 8) {
+        if(password.length &lt; 8) {
 
         return res.status(400).json('Le mot de passe ne peut pas faire moins de 8 caractères');
 
@@ -232,14 +260,14 @@ exports.createUser = async (req, res, next) => {
 }
 
 /**
- * UPDATE USER <br><br>
+ * UPDATE USER &lt;br>&lt;br>
  * 
- * Get user by email <br><br>
+ * Get user by email &lt;br>&lt;br>
  * 
- * - Check if user to modify exists (404) <br>
- * - Check if username is between 3 and 20 characters (400) <br>
- * - Check if password is at least 8 characters (400) <br>
- * - Check if username is already taken (409) <br>
+ * - Check if user to modify exists (404) &lt;br>
+ * - Check if username is between 3 and 20 characters (400) &lt;br>
+ * - Check if password is at least 8 characters (400) &lt;br>
+ * - Check if username is already taken (409) &lt;br>
  * - Check if email is being modified (400)
  * 
  * @async
@@ -266,19 +294,19 @@ exports.updateUser = async (req, res, next) => {
 
         } else {
 
-            if(userToUpdate.username.length < 3 || userToUpdate.username.length > 20)  {
+            if(userToUpdate.username.length &lt; 3 || userToUpdate.username.length > 20)  {
 
                 return res.status(400).json("Le nom d'utilisateur doit faire entre 3 et 20 caractères");
 
             }
 
-            if(userToUpdate.password.length < 8) {
+            if(userToUpdate.password.length &lt; 8) {
 
                 return res.status(400).json("Le mot de passe doit faire au moins 8 caractères");
 
             }
 
-            if (username && username !== userToUpdate.username) { 
+            if (username &amp;&amp; username !== userToUpdate.username) { 
 
                 const usernameTaken = await User.findOne({username});
 
@@ -312,9 +340,9 @@ exports.updateUser = async (req, res, next) => {
 }
 
 /**
- * DELETE USER <br><br>
+ * DELETE USER &lt;br>&lt;br>
  * 
- * - Check if user to delete exists (404) <br>
+ * - Check if user to delete exists (404) &lt;br>
  * 
  * @async
  * @function deleteUser
@@ -348,4 +376,26 @@ exports.deleteUser = async (req, res, next) => {
 
         return res.status(500).json('Erreur lors de la tentative de suppression');
     }
-}
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-controllers_catways.html">controllers/catways</a></li><li><a href="module-controllers_reservations.html">controllers/reservations</a></li><li><a href="module-controllers_users.html">controllers/users</a></li><li><a href="module-middlewares_private.html">middlewares/private</a></li><li><a href="module-routes_catways.html">routes/catways</a></li><li><a href="module-routes_reservations.html">routes/reservations</a></li><li><a href="module-routes_users.html">routes/users</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Sat Sep 05 2026 16:44:37 GMT+0200 (heure d’été d’Europe centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

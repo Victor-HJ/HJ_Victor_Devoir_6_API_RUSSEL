@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: routes/users.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,74 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: routes/users.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @fileoverview Express router for users
+ * @module routes/users
+ * @requires controllers/users
+ * @requires middlewares/private
+ * 
+ */
 
 
-    <h3> </h3>
+const express = require('express');
+const router = express.Router();
 
+const service = require('../controllers/users');
 
+const secure = require('../middlewares/private');
 
+/**
+ * Route to get a user by email
+ * @name GET /api/users/:email
+ */
 
+router.get('/:email', secure.checkJWT, service.getUserByEmail);
 
+/**
+ * Route to get all users
+ * @name GET /api/users
+ */
 
+router.get('/', secure.checkJWT, service.getAllUsers);
 
+router.get('/auth/logout', secure.checkJWT, service.logout);
 
+/**
+ * Route to create a user
+ * @name POST /api/users
+ */
 
+router.post('/', secure.checkJWT, service.createUser);
 
-    
+/** 
+ * Route to update a user
+ * @name PUT /api/users/:email
+ */
 
+router.put('/:email', secure.checkJWT, service.updateUser);
 
+/**
+ * Route to delete a user
+ * @name DELETE /api/users/:email
+ */
 
+router.delete('/:email', secure.checkJWT, service.deleteUser);
 
+router.post('/auth/authenticate', secure.checkJWT, service.authenticate);
 
+module.exports = router;
+</code></pre>
+        </article>
+    </section>
 
 
 

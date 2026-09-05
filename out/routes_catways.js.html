@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: routes/catways.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,67 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: routes/catways.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @fileoverview Express router for catways
+ * @module routes/catways
+ * @requires controllers/catways
+ * @requires middlewares/private
+ */
 
+const express = require('express');
+const router = express.Router();
 
-    <h3> </h3>
+const service = require('../controllers/catways');
 
+const secure = require('../middlewares/private');
 
+/**
+ * Route to get a catway by its number
+ * @name GET /api/catways/:id
+ */
 
+router.get('/:id', secure.checkJWT, service.getCatwayById);
 
+/**
+ * Route to get all catways
+ * @name GET /api/catways
+ */
 
+router.get('/', secure.checkJWT, service.getAllCatways);
 
+/**
+ * Route to create a catway
+ * @name POST /api/catways
+ */
 
+router.post('/', secure.checkJWT, service.createCatway);
 
+/**
+ * Route to update a catway
+ * @name PUT /api/catways/:id
+ */
 
+router.put('/:id', secure.checkJWT, service.updateCatway);
 
-    
+/**
+ * Route to delete a catway
+ * @name DELETE /api/catways/:id
+ */
 
+router.delete('/:id', secure.checkJWT, service.deleteCatway);
 
-
-
-
+module.exports = router;</code></pre>
+        </article>
+    </section>
 
 
 

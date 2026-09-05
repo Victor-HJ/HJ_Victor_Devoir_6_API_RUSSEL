@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: reservations.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: reservations.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * @fileoverview Reservations controller
  * @module controllers/reservations
  */
@@ -7,21 +35,13 @@ const Reservation = require('../models/reservation');
 const Catway = require('../models/catway');
 
 /**
- * GET ALL RESERVATIONS <br><br>
- * 
- * Fetch all reservations from the database and sort them by catway number (in an increasing order) <br><br>
- * 
- * - Check if the returned array is empty (404)
- * 
+ * Get every reservation
  * @async
  * @function getAllReservations
- * @param {Request} req Express request
- * @param {Response} res Express response
- * @param {NextFunction} next Callback to next function
- * 
- * 
- * @returns {Array} 200 : Returns every reservation made on every catway (in a increasing order)
- * @returns {Error} 404 | 500
+ * @param {Array} req Express request
+ * @param {Array} res Express response
+ * @param {Array} next Getting out of the function
+ * @returns {Array} Returns every reservation made on every catway (in a increasing order)
  */
 
 exports.getAllReservations = async (req, res, next) => {
@@ -30,14 +50,8 @@ exports.getAllReservations = async (req, res, next) => {
 
         const reservations = await Reservation.find().sort({catwayNumber : 1}); 
 
-        if(reservations.length === 0){
-
-            return res.status(404).json("Aucune réservation n'existe"); /* Avoids returning an empty array */
-
-        }
-
         return res.status(200).json(reservations);
-
+        
     } catch (error) {
 
         return res.status(500).json('Erreur serveur lors de la récupération des réservations');
@@ -46,20 +60,13 @@ exports.getAllReservations = async (req, res, next) => {
 }
 
 /**
- * GET ALL RESERVATIONS FOR A SPECIFIC CATWAY <br><br>
- * 
- * Get all the reservations associated to a catway by finding the catwayNumber <br><br>
- * 
- * - Check if the returned array is empty (404)
- * 
+ * Get all the reservations associated to a catway
  * @async
  * @function getReservationsByCatway
- * @param {Request} req Express request
- * @param {Response} res Express response
- * @param {NextFunction} next Callback to next function
- * 
- * @returns {Array} Returns every reservation made on a specific catway
- * @returns {Error} 404 | 500
+ * @param {Object} req Express request
+ * @param {Object} res Express response
+ * @param {Object} next Getting out of the function
+ * @returns {Object} Returns every reservation made on a specific catway
  */
 
 exports.getReservationsByCatway = async (req, res, next) => {
@@ -69,12 +76,6 @@ exports.getReservationsByCatway = async (req, res, next) => {
     try {
 
         const reservations = await Reservation.find({catwayNumber : parseInt(id)});
-
-        if(reservations.length === 0) {
-
-            return res.status(404).json("Aucune réservation n'est associée à ce catway"); /* No empty array */
-
-        }
 
         return res.status(200).json(reservations);
 
@@ -87,20 +88,13 @@ exports.getReservationsByCatway = async (req, res, next) => {
 }
 
 /**
- * GET ONE SPECIFIC RESERVATION <br><br>
- * 
- * Get a reservation by its ID <br><br>
- * 
- * - Check if reservation exists (404)
- * 
+ * Get one reservation with its ID
  * @async
  * @function getReservationById
- * @param {Request} req Express request
- * @param {Response} res Express response
- * @param {NextFunction} next Callback to next function
- * 
- * @returns {Object} 200 : The reservation
- * @returns {Error} 404 | 500
+ * @param {Object} req Express request
+ * @param {Object} res Express response
+ * @param {Object} next Getting out of the function
+ * @returns {Object} One reservation
  */
 
 exports.getReservationById = async (req, res, next) => {
@@ -129,22 +123,13 @@ exports.getReservationById = async (req, res, next) => {
 }
 
 /**
- * CREATE A RESERVATION <br><br>
- * 
- * - Check if mandatory fields are missing (client and boat names | starting and ending dates) (400) <br>
- * - Check if client and boat names are valid (both needs at least 3 characters) (400) <br>
- * - Check if end date isn't anterior to start date (400) <br>
- * - Check if the requested catway exists (404) <br>
- * - Check if there are any conflicts between booking dates and already existing bookings (409)
- * 
+ * Creates a reservation
  * @async
  * @function createReservation
- * @param {Request} req Express request
- * @param {Response} res Express response
- * @param {NextFunction} next Callback to next function
- * 
- * @returns {Object} 201 : The created reservation
- * @returns {Error} 400 | 404 | 409 | 500
+ * @param {Object} req Express request
+ * @param {Object} res Express response
+ * @param {Object} next Getting out of the function
+ * @returns {Object} The created reservation
  */
 
 exports.createReservation = async (req, res, next) => {
@@ -160,13 +145,13 @@ exports.createReservation = async (req, res, next) => {
 
         }
 
-        if (clientName.length < 3 || boatName.length < 3) {
+        if (clientName.length &lt; 3 || boatName.length &lt; 3) {
 
         return res.status(400).json('Le nom du client et du navire doivent faire au moins 3 caractères');
 
         }
 
-        if(endDate < startDate) {
+        if(endDate &lt; startDate) {
 
         return res.status(400).json('La date de fin ne peut être antérieure à la date de début');
 
@@ -214,22 +199,13 @@ exports.createReservation = async (req, res, next) => {
 
 
 /**
- * UPDATE A RESERVATION <br><br>
- * 
- * - Check if every required field is here (startDate and endDate) (400) <br>
- * - Check if endDate isn't anterior to startDate (400) <br>
- * - Check if clientName and boatName are being modified (400) <br>
- * - Check if reservation to update exists (404) <br>
- * - Check if new desired dates are not in direct conflict with existing reservations (the one to update excluded) (409)
- * 
+ * Updates a reservation 
  * @async
  * @function updateReservation
- * @param {Request} req Express request
- * @param {Response} res Express response
- * @param {NextFunction} next Callback to next function
- * 
- * @returns {Object} 201 : Updated reservation
- * @returns {Error} 400 | 404 | 409 | 500
+ * @param {Object} req Express request
+ * @param {Object} res Express response
+ * @param {Object} next Getting out of the function
+ * @returns {Object} Updated reservation
  */
 
 exports.updateReservation = async (req, res, next) => {
@@ -245,7 +221,7 @@ exports.updateReservation = async (req, res, next) => {
 
         }
 
-        if(endDate < startDate) {
+        if(endDate &lt; startDate) {
 
             return res.status(400).json('La date de fin ne peut être antérieure à la date de début')
 
@@ -286,7 +262,7 @@ exports.updateReservation = async (req, res, next) => {
 
             await updatedReservation.save();
 
-            return res.status(201).json(updatedReservation);
+            return res.status(200).json(updatedReservation);
         }
 
     } catch (error) {
@@ -297,20 +273,13 @@ exports.updateReservation = async (req, res, next) => {
 }
 
 /**
- * DELETE A RESERVATION <br><br>
- * 
- * Use the ID of the reservation to find it <br><br>
- * 
- * -Check if reservation exists (404)
- * 
+ * Deletes a reservation
  * @async
  * @function deleteReservation
- * @param {Request} req Express request
- * @param {Response} res Express response
- * @param {NextFunction} next Callback to next function
- * 
- * @returns {Response} 200 : Successful deletion message
- * @returns {Error} 404 | 500
+ * @param {Object} req Express request
+ * @param {Object} res Express response
+ * @param {Object} next Getting out of the function
+ * @returns {Object} Successful deletion message
  */
 
 exports.deleteReservation = async (req, res, next) => {
@@ -339,4 +308,26 @@ exports.deleteReservation = async (req, res, next) => {
         return res.status(500).json('Erreur lors de la tentative de suppression');
 
     }
-}
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-controllers_catways.html">controllers/catways</a></li><li><a href="module-controllers_reservations.html">controllers/reservations</a></li><li><a href="module-controllers_users.html">controllers/users</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Sat Sep 05 2026 14:22:59 GMT+0200 (heure d’été d’Europe centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,5 +1,21 @@
+/** 
+ * @fileoverview Security tokens middleware
+ * @module middlewares/private
+ */
+
 const jwt = require('jsonwebtoken');
 const SECRET_KEY = process.env.SECRET_KEY;
+
+/**
+ * CHECKING USER <br><br>
+ * 
+ * - Check user token (401)
+ * - Create new token
+ * 
+ * @param {Request} req Express request
+ * @param {Response} res Express response
+ * @param {NextFunction} next Callback to next function
+ */
 
 exports.checkJWT = async (req, res, next) => {
 
