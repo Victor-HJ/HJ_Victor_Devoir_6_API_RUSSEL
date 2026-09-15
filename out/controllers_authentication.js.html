@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: middlewares/private.js</title>
+    <title>JSDoc: Source: controllers/authentication.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: middlewares/private.js</h1>
+    <h1 class="page-title">Source: controllers/authentication.js</h1>
 
     
 
@@ -26,50 +26,86 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/** 
- * @fileoverview Security tokens middleware
- * @module middlewares/private
+            <pre class="prettyprint source linenums"><code>/**
+ * @fileoverview Authentication controller
+ * @module controllers/authentication
  */
 
+const User = require('../models/user');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const SECRET_KEY = process.env.SECRET_KEY;
 
 /**
- * CHECKING USER &lt;br>&lt;br>
+ * Log in the API, this function checks credentials
  * 
- * - Check user token (401)
- * - Create new token
- * 
- * @param {Request} req Express request
+ * @async
+ * @function login
+ * @param {Request} Express request
  * @param {Response} res Express response
  * @param {NextFunction} next Callback to next function
+ * 
+ * @returns {Object} A dashboard page
+ * @throws {Error} If credentials are invalid
  */
 
-exports.checkJWT = async (req, res, next) => {
-    console.log(req.cookies);
-    const token = req.cookies.token;
-    console.log(token);
+exports.login = async (req, res, next) => {
 
-    if(!token) {
-        console.log('no token');
-        return res.redirect('/');
-
-    }
+    const {email, password} = req.body;
 
     try {
 
-        const authorized = jwt.verify(token, process.env.SECRET_KEY);
+        const user = await User.findOne({email : email});
 
-        req.user = authorized.user;
+        if (!user) {
 
-        next();
+            return res.status(404).json("L'utilisateur n'existe pas");
+
+        }
+
+        const validPassword = await bcrypt.compare(password, user.password);
+
+        if(!validPassword) {
+
+            return res.status(403).json ('Informations de connexion incorrectes');
+
+        }
+
+        delete user._doc.password;
+
+        const expireIn = 24 * 60 * 60;
+        const token = jwt.sign(
+            {user : user},
+            process.env.SECRET_KEY,
+            {expiresIn : expireIn}
+        );
+
+        res.cookie('token', token, {
+            sameSite : true,
+            maxAge : 24 * 60 * 60
+        });
+
+        return res.status(200).json({
+            user : {
+                id : user._id,
+                email : user.email,
+                username : user.username
+            }
+        });
 
     } catch (error) {
 
-        return res.redirect('/');
-        
+        return res.status(500).json('Erreur lors de la tentative de connexion');
+
     }
-};</code></pre>
+}
+
+exports.logout = async (req, res, next) => {
+
+    res.clearCookie('token');
+
+    return res.status(200).json('Vous vous êtes déconnecté');
+
+}</code></pre>
         </article>
     </section>
 

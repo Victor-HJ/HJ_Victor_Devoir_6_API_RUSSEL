@@ -28,8 +28,6 @@ router.get('/:email', secure.checkJWT, service.getUserByEmail);
 
 router.get('/', secure.checkJWT, service.getAllUsers);
 
-router.get('/auth/logout', service.logout);
-
 /**
  * Route to create a user
  * @name POST /api/users
@@ -50,7 +48,5 @@ router.put('/:email', secure.checkJWT, service.updateUser);
  */
 
 router.delete('/:email', secure.checkJWT, service.deleteUser);
-
-router.post('/auth/authenticate', service.authenticate);
 
 module.exports = router;

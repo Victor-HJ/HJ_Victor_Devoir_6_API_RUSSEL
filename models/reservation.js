@@ -1,6 +1,17 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+/**
+ * @typedef {Object} ReservationSchema
+ * @property {number} catwayNumber - The catway associated to the booking 
+ * @property {string} clientName - The name of the client booking the catway
+ * @property {string} boatName - The name of the moored boat
+ * @property {date} startDate - The starting date of the booking
+ * @property {date} endDate - The ending date of the booking
+ * @property {date} createdAt - Date of creation
+ * @property {date} updatedAt - Date of update
+ */
+
 const Reservation = new Schema ({
     catwayNumber : {
         type : Number, 

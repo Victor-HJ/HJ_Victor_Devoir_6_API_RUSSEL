@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: routes/reservations.js</title>
+    <title>JSDoc: Source: models/user.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: routes/reservations.js</h1>
+    <h1 class="page-title">Source: models/user.js</h1>
 
     
 
@@ -26,65 +26,62 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/**
- * @fileoverview Express router for reservations
- * @module routes/reservations
- * @requires controllers/catways
- * @requires controllers/reservations
- * @requires middlewares/private
- */
-
-
-const express = require('express');
-const router = express.Router();
-
-const service = require('../controllers/reservations');
-
-const secure = require('../middlewares/private');
+            <pre class="prettyprint source linenums"><code>const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const bcrypt = require('bcrypt');
 
 /**
- * Route to get all reservations
- * @name GET /api/reservations
+ * @typedef {Object} UserSchema
+ * @property {string} username - Username (unique, between 3 and 20 characters)
+ * @property {string} email - Email (unique)
+ * @property {string} password - password (at least 8 characaters)
+ * @property {date} createdAt - Date of creation
+ * @property {date} updatedAt - Date of update
  */
 
-router.get('/', secure.checkJWT, service.getAllReservations);
+const User = new Schema ({
+    username : {
+        type : String,
+        trim : true,
+        unique : true,
+        required : [true, "Un nom d'utilisateur est requis"],
+        minlength : [3, "Le nom d'utilisateur doit faire au moins 3 caractères"],
+        maxlength : [20, "Le nom d'utilisateur ne peut dépasser 20 caractères"]
+    },
+
+    email : {
+        type : String, 
+        trim : true,
+        lowercase : true,
+        immutable : true,
+        unique : true,
+        required : [true, 'Un email est requis pour chaque compte']
+    },
+
+    password : {
+        type : String,
+        trim : true,
+        required : [true, 'Un mot de passe est requis'],
+        minlength : [8, 'Le mot de passe doit faire au moins 8 caractères'],
+    }
+}, {
+    timestamps : true
+});
 
 /**
- * Route to get all reservations for one catway
- * @name GET /api/catways/:id/reservations
+ * Hash middleware : automated hash before password creation / update
  */
+User.pre('save', function() {
 
-router.get('/:id/reservations', secure.checkJWT, service.getReservationsByCatway);
+    if(!this.isModified('password')) {
+        return;
+    }
 
-/**
- * Route to get a reservation
- * @name GET /api/catways/:id/reservations/:idReservation
- */
+    this.password = bcrypt.hashSync(this.password, 10);
 
-router.get('/:id/reservations/:idReservation', secure.checkJWT, service.getReservationById);
+});
 
-/**
- * Route to create a reservation
- * @name POST /api/catways/:id/reservations
- */
-
-router.post('/:id/reservations', secure.checkJWT, service.createReservation);
-
-/**
- * Route to update a reservation
- * @name PUT /api/catways/:id/reservations/:idReservation
- */
-
-router.put('/:id/reservations/:idReservation', secure.checkJWT, service.updateReservation);
-
-/**
- * Route to delete a reservation
- * @name DELETE /api/catways/:id/reservations/:idReservation
- */
-
-router.delete('/:id/reservations/:idReservation', secure.checkJWT, service.deleteReservation);
-
-module.exports = router;</code></pre>
+module.exports = mongoose.model('User', User);</code></pre>
         </article>
     </section>
 

@@ -6,11 +6,11 @@
      <p> T'es sur l'API du port de plaisance Russel mon salaud, connecte toi pour faire des trucs </p>
 </div>
 
-<div id="login_form">
+<div>
     <h2> Connexion </h2>
 
     <div>
-        <form>
+        <form id="login_form">
             <div>
                 <label for="email">Email</label>
                 <input type="text" id="email">
@@ -24,9 +24,52 @@
             <button type="submit">Se connecter</button>
         </form>
     </div>
+
+    <div id="error" style="color : red; font-weight: 700;"></div>
 </div>
 
 <div>
-    <p> La doc </p>
     <a href="./docs"> La doc </a>
 </div>
+
+<script>
+
+    const form = document.getElementById('login_form');
+    const error = document.getElementById('error');
+
+    form.addEventListener('submit', async(e) => {
+
+        e.preventDefault();
+
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        try {
+
+            const response = await fetch('/authentication/login', {
+
+                method : 'POST',
+                headers : {
+                    'Content-Type' : 'application/json'
+                },
+                body : JSON.stringify({email, password})
+                
+            });
+
+            if(response.ok) {
+
+                window.location.href = '/dashboardView'
+
+            } else {
+
+                error.textContent = await response.text();
+
+            }
+
+        } catch (error) {
+            
+            error.textContent = await response.text();
+
+        }
+    });
+</script>

@@ -2,6 +2,15 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
 
+/**
+ * @typedef {Object} UserSchema
+ * @property {string} username - Username (unique, between 3 and 20 characters)
+ * @property {string} email - Email (unique)
+ * @property {string} password - password (at least 8 characaters)
+ * @property {date} createdAt - Date of creation
+ * @property {date} updatedAt - Date of update
+ */
+
 const User = new Schema ({
     username : {
         type : String,
@@ -31,6 +40,9 @@ const User = new Schema ({
     timestamps : true
 });
 
+/**
+ * Hash middleware : automated hash before password creation / update
+ */
 User.pre('save', function() {
 
     if(!this.isModified('password')) {

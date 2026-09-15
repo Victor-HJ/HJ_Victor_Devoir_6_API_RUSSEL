@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: routes/reservations.js</title>
+    <title>JSDoc: Source: models/catway.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: routes/reservations.js</h1>
+    <h1 class="page-title">Source: models/catway.js</h1>
 
     
 
@@ -26,65 +26,45 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/**
- * @fileoverview Express router for reservations
- * @module routes/reservations
- * @requires controllers/catways
- * @requires controllers/reservations
- * @requires middlewares/private
- */
-
-
-const express = require('express');
-const router = express.Router();
-
-const service = require('../controllers/reservations');
-
-const secure = require('../middlewares/private');
+            <pre class="prettyprint source linenums"><code>const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 /**
- * Route to get all reservations
- * @name GET /api/reservations
+ * @typedef {Object} CatwaySchema
+ * @property {number} catwayNumber - Unique and definitive number associated to the catway
+ * @property {'short' | 'long'} catwayType - Type of catway (long ou short)
+ * @property {string} catwayState - State of the catway
+ * @property {date} createdAt - Date of creation
+ * @property {date} updatedAt - Date of update
  */
 
-router.get('/', secure.checkJWT, service.getAllReservations);
+const Catway = new Schema ({
+    catwayNumber : {
+        type : Number,
+        trim : true,
+        immutable : true,
+        unique : true,
+        required : [true, 'Chaque catway doit avoir un numéro']
+    },
 
-/**
- * Route to get all reservations for one catway
- * @name GET /api/catways/:id/reservations
- */
+    catwayType : {
+        type : String,
+        trim : true,
+        immutable : true,
+        enum : ['short', 'long'],
+        required : [true, 'Le type du catway doit être défini']
+    },
 
-router.get('/:id/reservations', secure.checkJWT, service.getReservationsByCatway);
+    catwayState : {
+        type : String,
+        trim : true,
+        required : [true, 'Chaque catway doit avoir un état défini']
+    }
+}, {
+    timestamps : true
+});
 
-/**
- * Route to get a reservation
- * @name GET /api/catways/:id/reservations/:idReservation
- */
-
-router.get('/:id/reservations/:idReservation', secure.checkJWT, service.getReservationById);
-
-/**
- * Route to create a reservation
- * @name POST /api/catways/:id/reservations
- */
-
-router.post('/:id/reservations', secure.checkJWT, service.createReservation);
-
-/**
- * Route to update a reservation
- * @name PUT /api/catways/:id/reservations/:idReservation
- */
-
-router.put('/:id/reservations/:idReservation', secure.checkJWT, service.updateReservation);
-
-/**
- * Route to delete a reservation
- * @name DELETE /api/catways/:id/reservations/:idReservation
- */
-
-router.delete('/:id/reservations/:idReservation', secure.checkJWT, service.deleteReservation);
-
-module.exports = router;</code></pre>
+module.exports = mongoose.model('Catway', Catway);</code></pre>
         </article>
     </section>
 

@@ -23,10 +23,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.get('/', (req,res) => {
-    res.render('index');
-});
-
 app.use('/docs', express.static(path.join(__dirname, 'out')));
 
 app.use('/', indexRouter);

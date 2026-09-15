@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: routes/reservations.js</title>
+    <title>JSDoc: Source: routes/authentication.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: routes/reservations.js</h1>
+    <h1 class="page-title">Source: routes/authentication.js</h1>
 
     
 
@@ -27,64 +27,31 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * @fileoverview Express router for reservations
- * @module routes/reservations
- * @requires controllers/catways
- * @requires controllers/reservations
- * @requires middlewares/private
+ * @fileoverview Express router for authentication routes
+ * @module routes/authentication
+ * @requires controllers/authentication
  */
-
 
 const express = require('express');
 const router = express.Router();
 
-const service = require('../controllers/reservations');
-
-const secure = require('../middlewares/private');
+const service = require('../controllers/authentication');
 
 /**
- * Route to get all reservations
- * @name GET /api/reservations
+ * Route to logout from the API
+ * @name GET api/authentication/logout
  */
-
-router.get('/', secure.checkJWT, service.getAllReservations);
+router.get('/logout', service.logout);
 
 /**
- * Route to get all reservations for one catway
- * @name GET /api/catways/:id/reservations
+ * Route to login to the API
+ * @name POST api/authentication/login
  */
 
-router.get('/:id/reservations', secure.checkJWT, service.getReservationsByCatway);
+router.post('/login', service.login);
 
-/**
- * Route to get a reservation
- * @name GET /api/catways/:id/reservations/:idReservation
- */
-
-router.get('/:id/reservations/:idReservation', secure.checkJWT, service.getReservationById);
-
-/**
- * Route to create a reservation
- * @name POST /api/catways/:id/reservations
- */
-
-router.post('/:id/reservations', secure.checkJWT, service.createReservation);
-
-/**
- * Route to update a reservation
- * @name PUT /api/catways/:id/reservations/:idReservation
- */
-
-router.put('/:id/reservations/:idReservation', secure.checkJWT, service.updateReservation);
-
-/**
- * Route to delete a reservation
- * @name DELETE /api/catways/:id/reservations/:idReservation
- */
-
-router.delete('/:id/reservations/:idReservation', secure.checkJWT, service.deleteReservation);
-
-module.exports = router;</code></pre>
+module.exports = router;
+</code></pre>
         </article>
     </section>
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: middlewares/private</title>
+    <title>JSDoc: Module: controllers/authentication</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: middlewares/private</h1>
+    <h1 class="page-title">Module: controllers/authentication</h1>
 
     
 
@@ -38,7 +38,7 @@
     <div class="container-overview">
     
         
-            <div class="description">Security tokens middleware</div>
+            <div class="description">Authentication controller</div>
         
 
         
@@ -87,7 +87,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="middlewares_private.js.html">middlewares/private.js</a>, <a href="middlewares_private.js.html#line1">line 1</a>
+        <a href="controllers_authentication.js.html">controllers/authentication.js</a>, <a href="controllers_authentication.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -144,7 +144,7 @@
     
 
     
-    <h4 class="name" id=".checkJWT"><span class="type-signature">(static) </span>checkJWT<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~login"><span class="type-signature">(async, inner) </span>login<span class="signature">(Express, res, next)</span><span class="type-signature"> &rarr; {Object}</span></h4>
     
 
     
@@ -152,7 +152,7 @@
 
 
 <div class="description">
-    CHECKING USER <br><br>- Check user token (401)- Create new token
+    Log in the API, this function checks credentials
 </div>
 
 
@@ -188,7 +188,7 @@
 
         <tr>
             
-                <td class="name"><code>req</code></td>
+                <td class="name"><code>Express</code></td>
             
 
             <td class="type">
@@ -204,7 +204,7 @@
 
             
 
-            <td class="description last">Express request</td>
+            <td class="description last">request</td>
         </tr>
 
     
@@ -291,7 +291,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="middlewares_private.js.html">middlewares/private.js</a>, <a href="middlewares_private.js.html#line20">line 20</a>
+        <a href="controllers_authentication.js.html">controllers/authentication.js</a>, <a href="controllers_authentication.js.html#line10">line 10</a>
     </li></ul></dd>
     
 
@@ -314,8 +314,59 @@
 
 
 
+<h5>Throws:</h5>
+
+        
+
+<dl>
+    <dt>
+        <div class="param-desc">
+        If credentials are invalid
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl>
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">Error</span>
 
 
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+
+    
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A dashboard page
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
