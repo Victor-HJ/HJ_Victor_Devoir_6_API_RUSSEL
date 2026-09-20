@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" name="Catways" content="Page de gestion des catways">
+    <title>Catways</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <header>
+
+        <h1 id="catways-management-title"> Gestion des catways </h1>
+
+         <nav class="nav-menu">
+            <a href="/dashboard_view"> Dashboard </a>
+            <a href="/users"> Utilisateurs </a>
+            <a href="/reservations"> Réservations </a>
+            <a href="/docs"> Documentation </a>
+            <a href="/" id="logout"> Déconnexion </a>
+        </nav>
+
+    </header>
+
+    <main>
+        <div class="main-menu">
+            <button class="actions-menu-button" id="get-all-catways-button"> Afficher tous les catways </button>
+            <button class="actions-menu-button" id="get-one-catway-button"> Trouver un catway </button>
+            <button class="actions-menu-button" id="create-one-catway-button"> Créer un catway </button>
+        </div>
+
+        <div id="response-message"></div>
+
+        <form id="get-one-catway-form" class="CRUD-sections" style="display: none;">
+
+            <div id="searched-number">
+                <label for="catwayNumber"> Entrez un numéro de catway </label>
+                <input type="number" name="catwayNumber" id="number" required>
+            </div>
+
+            <div id="submit-number">
+                <button class="submit-button"> Recherche </button>
+            </div>
+
+        </form>
+
+        <section id="get-all-catways-section" class="get-all-section CRUD-sections" style="display: none;">
+
+            <h3> Liste des catways </h3>
+
+            <table class="get-all-table">
+                <thead>
+
+                    <tr>
+                        <th> Numéro de catway </th>
+                        <th> Type de catway </th>
+                        <th> Etat du catway </th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="get-all-catways-table-body"></tbody>
+            </table>
+        </section>
+
+        <section id="get-one-catway-section" class="get-one-section CRUD-sections" style="display: none;">
+
+            <h3> Recherche et modification d'un catway </h3>
+
+                <table class="get-one-table">
+
+                    <thead>
+                        <tr>
+                            <th> Numéro du catway </th>
+                            <th> Type du catway </th>
+                            <th> Etat du catway </th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="get-one-catway-table-body"></tbody>
+                </table>
+
+                <div>
+                    <form id="update-catway-form">
+
+                        <input type="textarea" id="update-catway-text">
+
+                        <button id="update-catway-confirm" class="buttons"> Modifier l'état </button>
+
+                    </form>
+                </div>
+
+                <div>
+
+                    <button id="delete-catway-button"> Supprimer le catway </button>
+
+                </div>
+
+        </section>
+
+        <section id="create-one-catway-section" class="create-one-section CRUD-sections" style="display: none;">
+
+            <h3> Créer un catway </h3>
+
+            <form id="create-one-catway-form">
+
+                <div class="create-form-inner-div">
+
+                    <label for="catway-number"> Numéro du catway </label>
+
+                    <input type="number" name="catway-number" id="create-number" required>
+
+                </div>
+
+                <div class="create-form-inner-div">
+
+                    <label for="catway-type"> Type du catway </label>
+
+                    <select name="catway-type" id="create-type" required>
+                        <option value="long"> Long </option>
+                        <option value="short"> Short </option>
+                    </select>
+
+                </div>
+
+                <div class="create-form-inner-div">
+
+                    <label for="catway-state"> Etat du catway </label>
+                    <input type="textarea" name="catway-state" id="create-state" required>
+
+                </div>
+
+                <div class="create-form-inner-div">
+
+                    <button type="submit" id="submit-new-catway"> Créer le catway </button>
+
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <script src="/scripts/catways_script.js"></script>
+</body>

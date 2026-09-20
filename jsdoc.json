@@ -1,6 +1,9 @@
 {
     "source": {
-        "include" : ["models", "controllers", "middlewares", "routes"],
+        "include" : ["models", "controllers", "middlewares", "routes", "public"],
         "includePattern": ".js$"
+    },
+    "opts" : {
+        "recurse" : true
     }
 }

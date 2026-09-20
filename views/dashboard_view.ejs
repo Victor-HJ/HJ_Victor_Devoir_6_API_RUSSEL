@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" name="Dashboard" content="Tableau de bord de l'API">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <header>
+        <div>
+
+            <h1> Tableau de bord </h1>
+
+
+            <div>
+                <div>
+                    <p class="connected-user"><%= user?.username%></p>
+                    <p class="connected-user"><%= user?.email%></p>
+                </div>
+                <div>
+                    <p id="current-date"><%= currentDate %></p>
+                </div>               
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <a class="a" href="/catways_view"> Catways </a>
+            <a href="/users"> Utilisateurs </a>
+            <a href="/reservations"> Réservations </a>
+            <a href="/docs"> Documentation </a>
+            <a href="/"> Déconnexion </a>
+        </nav>
+    </header>
+
+    <main>
+        <h2> Liste des réservations en cours </h2>
+
+        <div id="no-current-reservations"></div>
+
+        <table id="current-reservations">
+            <thead>
+                <tr>
+                    <th> Numéro de Catway </th>
+                    <th> Nom du client </th>
+                    <th> Nom du bateau </th>
+                    <th> Date de début </th>
+                    <th> Date de fin </th>
+                </tr>
+            </thead>
+
+            <tbody id="current-reservations-table-body"></tbody>
+        </table>
+    </main>
+
+    <script src="/scripts/dashboard_script.js"></script>
+</body>
+</html>
+

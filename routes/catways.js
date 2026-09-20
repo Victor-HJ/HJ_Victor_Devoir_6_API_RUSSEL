@@ -13,18 +13,18 @@ const service = require('../controllers/catways');
 const secure = require('../middlewares/private');
 
 /**
- * Route to get a catway by its number
- * @name GET /api/catways/:id
- */
-
-router.get('/:id', secure.checkJWT, service.getCatwayById);
-
-/**
  * Route to get all catways
  * @name GET /api/catways
  */
 
 router.get('/', secure.checkJWT, service.getAllCatways);
+
+/**
+ * Route to get a catway by its number
+ * @name GET /api/catways/:id
+ */
+
+router.get('/:id', secure.checkJWT, service.getCatwayById);
 
 /**
  * Route to create a catway
