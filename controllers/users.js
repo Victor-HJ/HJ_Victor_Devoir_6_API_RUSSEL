@@ -237,6 +237,7 @@ exports.createUser = async (req, res, next) => {
  * Get user by email <br><br>
  * 
  * - Check if user to modify exists (404) <br>
+ * - Check if sent password from frontend is correct (401) <br>
  * - Check if username is between 3 and 20 characters (400) <br>
  * - Check if password is at least 8 characters (400) <br>
  * - Check if username is already taken (409) <br>
@@ -254,11 +255,11 @@ exports.createUser = async (req, res, next) => {
 
 exports.updateUser = async (req, res, next) => {
 
-    const {username, email, password} = req.body;
+    const {username, email, password, currentPassword} = req.body;
 
     try {
 
-        const userToUpdate = await User.findOne({email});
+        const userToUpdate = await User.findOne({email : req.params.email});
 
         if(!userToUpdate) {
 
@@ -266,13 +267,22 @@ exports.updateUser = async (req, res, next) => {
 
         } else {
 
-            if(userToUpdate.username.length < 3 || userToUpdate.username.length > 20)  {
+            const correctPassword = await bcrypt.compare(currentPassword, userToUpdate.password);
 
-                return res.status(400).json("Le nom d'utilisateur doit faire entre 3 et 20 caractères");
+            if(!correctPassword) {
+
+                return res.status(401).json('Mot de passe incorrect, action refusée');
 
             }
 
-            if(userToUpdate.password.length < 8) {
+            if(username && (username.length < 3 || username.length > 20)) {
+
+                return res.status(400).json("Le nom d'utilisateur doit faire entre 3 et 20 caractères");
+
+
+            }
+
+            if(password && password.length < 8) {
 
                 return res.status(400).json("Le mot de passe doit faire au moins 8 caractères");
 
@@ -288,16 +298,18 @@ exports.updateUser = async (req, res, next) => {
                     
                 }
 
+                /* Mandatory lines, otherwise Mongoose refuses to update the username for some reason */
+                userToUpdate.username = username;
+                userToUpdate.markModified('username');
             }
 
-            if (userToUpdate.email !== email) {
+            if(password){
 
-                return res.status(400).json("L'email associé à un compte ne peut être changé");
+                /* Mandatory lines, otherwise Mongoose refuses to update the password for some reason */
+                userToUpdate.password = password;
+                userToUpdate.markModified('password');
 
             }
-
-            userToUpdate.username = username;
-            userToUpdate.password = password;
 
             const updatedUser = await userToUpdate.save();
 
@@ -306,7 +318,7 @@ exports.updateUser = async (req, res, next) => {
         }
     } catch (error) {
 
-        return res.status(500).json("Erreur lors de la mise à jour de l'utilisateur");
+        return res.status(500).json("Erreur interne lors de la mise à jour de l'utilisateur");
 
     }
 }

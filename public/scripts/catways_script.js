@@ -13,36 +13,6 @@
 
 let searchedCatwayNumber = null;
 
-/** Hides all CRUD sections (including forms) and displays only the wanted section (or form). <br>
- * Clears the residual message received from the server on every section switch
- * @param {string} targetSection - The HTML ID of the wanted section
- * @returns {void}
- */
-
-const selectSection = (targetSection) => {
-
-    const message = document.getElementById('response-message');
-
-    if (message) {
-
-        message.textContent = '';
-
-    }
-
-    document.querySelectorAll('.CRUD-sections').forEach(section => {
-
-        section.style.display = 'none';
-
-    });
-
-    const target = document.getElementById(targetSection);
-
-    if(target) {
-
-        target.style.display = 'block';
-
-    }
-};
 
 /**
  * Queries the API to fetch the function to get ALL catways (controller). <br>
@@ -59,27 +29,15 @@ const fetchGetAllCatways = async () => {
 
         const response = await fetch('/catways');
 
-        /* Checks content of the server response (if the token has expired) */
-        const contentType = response.headers.get('Content-type'); 
-
-        /* Forces logout redirection if expired token */
-        if(contentType && contentType.includes('text/html')){
-
-            window.location.href = "/";
-
-            return;
-
-        }
+        checkIfExpired(response);
 
         const data = await response.json();
 
         const allCatways = document.getElementById('get-all-catways-table-body');
 
-        if(!allCatways) {
-                return;
-        }
-
         allCatways.textContent = '';
+
+        selectSection('get-all-catways-section');
 
         if(response.status === 200) {
 
@@ -121,12 +79,7 @@ const fetchGetAllCatways = async () => {
                 
     } catch (error) {
 
-        const errorDiv = document.getElementById('response-message');
-
-        const errorMessage = document.createElement('p');
-        errorMessage.textContent = error.message;
-
-        errorDiv.appendChild(errorMessage);
+        messageFromCatch(error);
 
     }
 };
@@ -148,18 +101,8 @@ const fetchOneCatway = async () => {
 
         const response = await fetch (`/catways/${catwayId}`);
 
-        /* Checks content of the server response (if the token has expired) */
-        const contentType = response.headers.get('Content-type'); 
-
-        /* Forces index redirection if expired token */
-        if(contentType && contentType.includes('text/html')){
-
-            window.location.href = "/";
-
-            return;
-
-        }
-
+        checkIfExpired(response);
+        
         const data = await response.json();
 
         const oneCatway = document.getElementById('get-one-catway-table-body');
@@ -167,6 +110,8 @@ const fetchOneCatway = async () => {
         /* Resets table to prevent the display of several catways at once */
 
         oneCatway.textContent = '';
+
+        selectSection('get-one-catway-section')
 
         if(response.status === 200) {
 
@@ -193,7 +138,7 @@ const fetchOneCatway = async () => {
 
         } else {
 
-            /* Resets the global variable, otherwise it would be useless for the next ones */
+            /* Resets the global variable */
             searchedCatwayNumber = null;
 
             /* Still displaying an error as a table cell */
@@ -216,14 +161,7 @@ const fetchOneCatway = async () => {
 
         searchedCatwayNumber = null;
 
-        console.log(error);
-
-        const errorDiv = document.getElementById('response-message');
-
-        const errorMessage = document.createElement('p');
-        errorMessage.textContent = error.message;
-
-        errorDiv.appendChild(errorMessage);
+        messageFromCatch(error);
 
     }
 };
@@ -247,8 +185,9 @@ const updateOneCatway = async () => {
     }
 
     const stateInput = document.querySelector('#update-catway-form input[type="textarea"]');
-    const newStateValue = stateInput.value;
+    const newStateValue = stateInput.value.trim();
 
+    /* Is necessary because the controller checks if every required data is sent with the request, otherwise it triggers an error */
     const typeCell = document.querySelector('#get-one-catway-table-body tr td:nth-child(2)');
     const currentType = typeCell.textContent.trim();
 
@@ -268,19 +207,7 @@ const updateOneCatway = async () => {
             })
         });
 
-        /* Checks content of the server response (if the token has expired) */
-        const contentType = response.headers.get('Content-type'); 
-
-        /* Forces index redirection if expired token */
-        if(contentType && contentType.includes('text/html')){
-
-            window.location.href = "/";
-
-            return;
-
-        }
-
-        const message = document.getElementById('response-message');
+        checkIfExpired(response);
 
         const data = await response.json();
 
@@ -288,41 +215,27 @@ const updateOneCatway = async () => {
 
             const stateCell = document.querySelector('#get-one-catway-table-body tr td:nth-child(3)');
 
+            /* Modifies the cell without having to send a new get request */
             if(stateCell) {
 
                 stateCell.textContent = data.catwayState;
                         
             }
 
-            const messageText = document.createElement('p');
-            const messageTextContent = document.createTextNode('Catway modifié avec succès');
-
-            messageText.appendChild(messageTextContent);
-            message.appendChild(messageText);
+            sendMessage('Catway modifié avec succès');
 
         } else {
 
-            const errorMessageText = document.createElement('p');
-
-            errorMessageText.textContent = data;
-
-            message.appendChild(errorMessageText);
+            sendMessage(data);
 
         }
 
-            /* Resets the state form */
-            const resetForm = document.querySelector('#update-catway-form');
-            resetForm.reset();
+        const resetForm = document.querySelector('#update-catway-form');
+        resetForm.reset();
 
     } catch (error) {
 
-        console.log(error);
-
-        const errorMessage = document.getElementById('response-message');
-        const errorMessageText = document.createElement('p');
-
-        errorMessageText.textContent = error.message;
-
+        messageFromCatch(error);
     }
 }
 
@@ -340,17 +253,13 @@ const updateOneCatway = async () => {
 const deleteOneCatway = async () => {
 
     if(!searchedCatwayNumber) {
-
         return;
-
     }
 
     const confirmation = confirm('Etes-vous sûr de vouloir supprimer ce catway');
 
     if(!confirmation) {
-
         return;
-
     }
 
     try {
@@ -361,55 +270,23 @@ const deleteOneCatway = async () => {
 
         });
 
-        /* Checks content of the server response (if the token has expired) */
-        const contentType = response.headers.get('Content-type'); 
-
-        /* Forces index redirection if expired token */
-        if(contentType && contentType.includes('text/html')){
-
-            window.location.href = "/";
-
-            return;
-
-        }
-
-        const message = document.getElementById('response-message');
+        checkIfExpired(response);
 
         const data = await response.json();
 
         if(response.status === 200) {
 
-            const messageText = document.createElement('p');
-            messageText.textContent = data;
-
-            message.appendChild(messageText);
-
-            searchedCatwayNumber = null;
-
-            if(typeof selectSection === 'function') {
-
-                selectSection('get-all-catways-section');
-            }
+            sendMessage(data);
 
         } else {
 
-            const messageText = document.createElement('p');
-
-            messageText.textContent = data;
-
-            message.appendChild(messageText);
+            sendMessage(data);
 
         }
 
     } catch (error) {
 
-        const message = document.getElementById('response-message');
-
-        const messageText = document.createElement('p');
-
-        messageText.textContent = error.message;
-
-        message.appendChild(messageText);
+        messageFromCatch(error);
 
     }
 }
@@ -450,22 +327,9 @@ const createOneCatway = async () => {
             })
         });
 
-        /* Checks content of the server response (if the token has expired) */
-        const contentType = response.headers.get('Content-type'); 
-
-        /* Forces index redirection if expired token */
-        if(contentType && contentType.includes('text/html')){
-
-            window.location.href = "/";
-
-            return;
-
-        }
+        checkIfExpired(response);
 
         const data = await response.json();
-
-        /* Getting it here prevents form having to redeclare it twice further in the code */
-        const message = document.getElementById('response-message');
 
         if(response.status === 201) {
 
@@ -473,9 +337,9 @@ const createOneCatway = async () => {
 
             const tableBody = document.getElementById('get-one-catway-table-body');
 
+            /* Displaying a row allows to avoid another request (getOne) */
             if(tableBody){
 
-                /* Displaying a row allows to avoid another request (fetchOne) */
                 tableBody.textContent = '';
 
                 const row = document.createElement('tr');
@@ -495,24 +359,13 @@ const createOneCatway = async () => {
 
             }
 
-            if(typeof selectSection === 'function') {
+            selectSection('get-one-catway-section');
 
-                selectSection('get-one-catway-section');
-
-            }
-
-            const messageText = document.createElement('p');
-            const messageTextContent = document.createTextNode('Catway créé avec succès');
-
-            messageText.appendChild(messageTextContent);
-            message.appendChild(messageText);
+            sendMessage('Catway créé avec succès');
 
         } else {
 
-            const errorMessage = document.createElement('p');
-            errorMessage.textContent = data;
-
-            message.appendChild(errorMessage);
+            sendMessage(data);
         }
 
         /* Resets the create form */
@@ -521,7 +374,7 @@ const createOneCatway = async () => {
 
     } catch (error) {
 
-        console.log(error)
+        messageFromCatch(error);
 
     }
 };
@@ -562,8 +415,6 @@ displayAll.addEventListener('click', (e) => {
 
         e.preventDefault();
 
-        selectSection('get-all-catways-section');
-
         fetchGetAllCatways();
        
 });
@@ -579,6 +430,10 @@ const getOne = document.querySelector('#get-one-catway-button');
     const researchForm = document.getElementById('get-one-catway-form');
 
     researchForm.style.display = 'block';
+
+    const message = document.getElementById('response-message');
+
+    message.textContent = '';
 
 });
 
@@ -613,7 +468,9 @@ displayOne.addEventListener('click', (e) => {
 
     e.preventDefault();
 
-    selectSection('get-one-catway-section');
+    const message = document.getElementById('response-message');
+
+    message.textcontent = '';
 
     fetchOneCatway();
 });
@@ -633,18 +490,17 @@ displayUpdated.addEventListener('click', (e) => {
 
 
 /* get all catways section once a catway has been deleted */
-const displayAllAfterDeletion = document.querySelector('#delete-catway-button');
+const displayAfterDeletion = document.querySelector('#delete-catway-button');
 
-displayAllAfterDeletion.addEventListener('click', async (e) => {
+displayAfterDeletion.addEventListener('click', (e) => {
 
     e.preventDefault();
 
-    await deleteOneCatway();
+    deleteOneCatway();
 
-    fetchGetAllCatways();
 });
 
-/* Logout the user and destroys the session cookie */
+/* Prevents default redirection : the cookie must be deleted first */
 const logoutLink = document.querySelector('#logout');
 
 logoutLink.addEventListener('click', async (e) => {

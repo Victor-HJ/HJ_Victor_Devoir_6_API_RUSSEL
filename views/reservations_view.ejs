@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" name="Réservations" content="Page de gestion des réservations">
+    <title>Réservations</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <header>
+        <h1> Gestion des réservations </h1>
+
+        <nav class="nav-menu">
+            <a href="/dashboard_view"> Dashboard </a>
+            <a href="/catways_view"> Catways </a>
+            <a href="/users_view"> Utilisateurs </a>
+            <a href="/docs"> Documentation </a>
+            <a href="/" id="logout"> Déconnexion </a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="main-menu">
+            <button class="actions-menu-button"> Afficher toutes les réservations </button>
+            <button class="actions-menu-button"> Trouver une réservation </button>
+            <button class="actions-menu-button"> Créer une réservation </button>
+        </div>
+
+        <div id="response-message"></div>
+
+        <form id="get-one-reservation-form" class="CRUD-sections" style="display: none;">
+            <div>
+                <label for="id"> ID de réservation </label>
+                <input type="text" name="id" required>
+            </div>
+
+            <div>
+                <button id="submit-id"> Recherche </button>
+            </div>
+        </form>
+
+        <section id="get-all-reservations-section" class="CRUD-sections" style="display: none;">
+
+            <h2> Liste des réservations </h2>
+
+            <table class="get-all-table">
+                <thead>
+                    <tr>
+                        <th> Id de réservation </th>
+                        <th> Numéro de catway </th>
+                        <th> Nom du client </th>
+                        <th> Nom du bateau </th>
+                        <th> Date de début </th>
+                        <th> Date de fin </th>
+                    </tr>
+                </thead>
+
+                <tbody id="get-all-reservations-table-body"></tbody>
+            </table>
+        </section>
+
+        <section id="get-one-reservation-section" class="CRUD-sections" style="display: none;">
+
+            <h2> Recherche et modification d'une réservation </h2>
+
+            <table class="get-one-table">
+                <thead>
+                    <tr>
+                        <th> ID de réservation </th>
+                        <th> Numéro de catway </th>
+                        <th> Nom du client </th>
+                        <th> Nom du bateau </th>
+                        <th> Date de début </th>
+                        <th> Date de fin </th>
+                    </tr>
+                </thead>
+                <tbody id="get-one-reservation-table-body"></tbody>
+            </table>
+
+            <div id="update-div">
+                <form id="update-reservation-form">
+                    <div>
+                        <label for="new-start-date"> Nouvelle date de début </label>
+                        <input type="date" required id="new-start-date" name="new-start-date">
+                    </div>
+                    <div>
+                        <label for="new-end-date"> Nouvelle date de fin </label>
+                        <input type="date" id="new-end-date" name="new-end-date" required>
+                    </div>
+                    <button id="confirm-update-reservation"> Confirmer </button>
+                </form>
+            </div>
+
+            <div>
+                <button id="delete-reservation-button"> Supprimer la réservation </button>
+            </div>
+        </section>
+
+        <section id="create-one-reservation-section">
+            <h2> Créer une réservation </h2>
+
+            <form id="create-one-reservation-form">
+                <div>
+                    <label for="catway-number"> Numéro de catway </label>
+                    <input type="number" name="catway-number" id="catway-number" required>
+                </div>
+                <div>
+                    <label for="client-name"> Nom du client </label>
+                    <input type="text" name="client-name" id="client-name" required>
+                </div>
+                <div>
+                    <label for="boat-name"> Nom du bateau </label>
+                    <input type="text" name="boat-name" id="boat-name" required>
+                </div>
+                <div>
+                    <label for="start-date"> Date de début </label>
+                    <input type="date" name="start-date" id="start-date" required>
+                </div>
+                <div>
+                    <label for="end-date"> Date de fin </label>
+                    <input type="date" name="end-date" id="end-date" required>
+                </div>
+                <div>
+                    <button type="submit"> Enregistrer </button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <script src="/scripts/utils.js"></script>
+    <script src="/scripts/reservations_script.js"></script>
+</body>

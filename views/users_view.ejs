@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" name="Users" content="Page de gestion des utilisateurs de l'API">
+    <title>Users</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    
+    <header>
+        <h1 class="page-title"> Gestion des utilisateurs </h1>
+
+        <nav class="nav-menu">
+            <a href="/dashboard_view"> Tableau de bord </a>
+            <a href="/catways_view"> Catways </a>
+            <a href="/reservations_view"> Réservations </a>
+            <a href="/docs"> Documentation </a>
+            <a href="/" id="logout"> Déconnexion </a>
+        </nav>
+    </header>
+
+    <main>
+
+        <div class="main-menu">
+            <button class="actions-menu-button" id="get-all-users-button"> Afficher tous les utilisateurs </button>
+            <button class="actions-menu-button" id="get-one-user-button"> Trouver un utilisateur </button>
+            <button class="actions-menu-button" id="create-one-user-button"> Créer un utilisateur </button>
+        </div>
+
+        <div id="response-message"></div>
+
+        <form id="get-one-user-form" class="CRUD-sections" style="display:none;">
+            <div id="searched-email">
+                <label for="user-email"> Entrez le mail de l'utilisateur </label>
+                <input type="text" name="user-email" id="email" required>
+            </div>
+
+            <div id="submit-email">
+                <button class="submit-button"> Recherche </button>
+            </div>
+        </form>
+
+        <section id="get-all-users-section" class="CRUD-sections get-all-section" style="display: none;">
+
+            <h2> Liste des utilisateurs </h2>
+
+            <table class="get-all-table">
+                <thead>
+
+                    <tr>
+                        <th> Nom de l'utilisateur </th>
+                        <th> Mail de l'utilisateur </th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="get-all-users-table-body"></tbody>
+            </table>
+
+        </section>
+
+        <section id="get-one-user-section" class="get-one-section CRUD-sections" style="display: none;">
+
+            <h2> Recherche et modification d'un utilisateur </h3>
+
+                <table class="get-one-table">
+
+                    <thead>
+                        <tr>
+                            <th> Nom de l'utilisateur </th>
+                            <th> Email de l'utilisateur </th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="get-one-user-table-body"></tbody>
+                </table>
+
+                <div id="actions-on-user-buttons">
+                    <button id="update-username"> Changer le nom d'utilisateur </button>
+                    <button id="update-password"> Changer le mot de passe </button>
+                    <button id="delete-user"> Supprimer l'utilisateur </button>
+                </div>
+
+                <div id="username-update-div" class="update-or-delete-divs" style="display: none;">
+
+                    <h3> Modifier le nom d'utilisateur </h4>
+
+                    <form id="update-username-form">
+
+                        <div class="inputs-form">
+                            <label for="new-username"> Nouveau nom d'utilisateur </label>
+                            <input type="text" name="new-username" id="new-username" required>
+                        </div>
+                        <div class="inputs-form">
+                            <label for="password"> Entrez le mot de passe de l'utilisateur </label>
+                            <input type="password" name="password" id="current-password" required>
+                        </div>
+
+                        <button type="submit" id="submit-new-username"> Enregistrer </button>
+                    </form>
+                </div>
+
+                <div id="password-update-div" class="update-or-delete-divs" style="display: none;">
+
+                    <h4> Modifier le mot de passe </h4>
+
+                    <form id="update-password-form">
+
+                        <div class="inputs-form">
+                            <label for="new-password"> Nouveau mot de passe </label>
+                            <input type="password" id="new-password" name="new-password" required>
+                        </div>
+                        <div class="inputs-form">
+                            <label for="new-password-confirm"> Confirmer le nouveau mot de passe </label>
+                            <input type="password" id="new-password-confirm" name="new-password-confirm" required>
+                        </div>
+                        <div class="inputs-form">
+                            <label for="old-password"> Veuillez entrer le mot de passe actuel </label>
+                            <input type="password" name="old-password" id="old-password" required>
+                        </div>
+
+                        <button type="submit" id="submit-new-password"> Enregistrer </button>
+
+                    </form>
+        </section>
+
+        <section id="create-one-user-section" class="CRUD-sections create-section" style="display: none;">
+            <form id="create-user-form">
+                <div id="username-div">
+                    <label for="wanted-username"> Nom d'utilisateur </label>
+                    <input type="text" name="wanted-username" id="wanted-username" required>
+                </div>
+                <div id="email-div">
+                    <label for="wanted-email"> Adresse mail </label>
+                    <input type="text" name="wanted-email" id="wanted-email" required>
+                </div>
+                <div id="password-div">
+                    <div>
+                        <label for="wanted-password"> Mot de passe </label>
+                        <input type="password" name="wanted-password" id="wanted-password" required>
+                    </div>
+                    <div>
+                        <label for="wanted-password-confirm"> Confirmer le mot de passe </label>
+                        <input type="password" name="wanted-password-confirm" id="wanted-password-confirm" required>
+                    </div>
+                </div>
+
+                <button type="submit" id="save-new-user-button"> Enregistrer l'utilisateur </button>
+            </form>
+        </section>
+    </main>
+
+    <script src="/scripts/utils.js"></script>
+    <script src="/scripts/users_script.js"></script>
+</body>

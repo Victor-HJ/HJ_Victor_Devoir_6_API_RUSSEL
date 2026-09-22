@@ -48,7 +48,6 @@ const fetchGetAllReservations = async () => {
                 const boatCell = document.createElement('td');
                 const startCell = document.createElement('td');
                 const endCell = document.createElement('td');
-                const idCell = document.createElement('td');
 
                 const formattedStartDate = new Date(reservation.startDate).toLocaleDateString('fr-FR');
                 const formattedEndDate = new Date(reservation.endDate).toLocaleDateString('fr-FR');
@@ -72,28 +71,18 @@ const fetchGetAllReservations = async () => {
 
             table.style.display = 'none';
 
-            const message = document.createElement('p');
-            message.textContent = "Aucune réservation n'est active."
-
-            noReservations.appendChild(message);
+            sendMessage('Aucune réservation en cours')
 
         } else {
 
             table.style.display = 'none';
 
-            const message = document.createElement('p');
-            message.textContent = data;
-
-            noReservations.appendChild(message);
+            sendMessage(data);
         }
 
     } catch (error) {
 
-        console.log(error);
-        const message = document.createElement('p');
-        message.textContent = 'Imposible de charger les réservations';
-
-        noReservations.appendChild(message);
+        messageFromCatch(error)
 
     }
 }
