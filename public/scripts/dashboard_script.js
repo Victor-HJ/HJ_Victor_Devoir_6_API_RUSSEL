@@ -2,14 +2,15 @@
  * @fileoverview Front-end logic for dashboard page. <br>
  * @module dashboard-script
  * @requires window.fetch
+ * @requires controllers/reservations
+ * @requires utils
  */
 
 /** Queries the API to fetch all reservations via the controller's function getAll. <br>
- * Displays all active reservation by building a table (or a message if no reservation is active). <br>
- * Forces logout if session has expired.
  * 
  * @async
  * @function fetchGetAllReservations
+ * @returns {Promise} Renders either a table with the received data or a message if an error has occured. 
  */
 
 const fetchGetAllReservations = async () => {
@@ -22,14 +23,8 @@ const fetchGetAllReservations = async () => {
 
         const response = await fetch('/reservations');
 
-        const contentType = response.headers.get('content-type');
-
-        if(contentType && contentType.includes('text/html')) {
-
-            window.location.href = "/";
-            return ;
-
-        }
+        /* Checks for security token */
+        checkIfExpired(response);
 
         const data = await response.json();
 
