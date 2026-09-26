@@ -20,8 +20,14 @@ let searchedReservation = null;
  */
 let searchedCatway = null;
 
+/** The saved client name global variable. Will be included in payloads further down the code to prevent 400 responses.
+ * @type {string || null}
+  */
 savedClientName = null;
 
+/** The saved boat name global variable. Will be included in payloads further down the code to prevent 400 responses.
+ * @type {string || null}
+  */
 savedBoatName = null;
 
 /**
@@ -72,6 +78,7 @@ const displayReservationData = (item, targetTableBody) => {
  * 
  * @async
  * @function fetchGetAllReservations
+ * @requires utils
  */
 
 const fetchGetAllReservations = async () => {
@@ -80,12 +87,14 @@ const fetchGetAllReservations = async () => {
 
         const response = await fetch('/reservations');
 
+        /* Checks if security token is still there */
         checkIfExpired(response);
 
         const data = await response.json();
 
         if(response.status === 200) {
 
+            /* Displays the wanted section */
             selectSection('get-reservation-section');
 
             document.getElementById('response-message').textContent = '';
@@ -96,6 +105,7 @@ const fetchGetAllReservations = async () => {
                 reservationTableBody.textContent = '';
             }
 
+            /* Uses a display function to avoid redundancies in the code */
             data.forEach(reservation => {
                 displayReservationData(reservation, reservationTableBody);
             });
@@ -119,14 +129,14 @@ const fetchGetAllReservations = async () => {
  * 
  * @async
  * @function fetchGetAllReservationsFromCatway
- * 
+ * @requires utils
  */
 
 const fetchGetAllReservationsFromCatway = async () => {
 
     searchResult = document.querySelector('#get-all-for-catway');
 
-    /* Specifying used radix + security if searchedResult is not here */
+    /* Specifying used radix + security if searchResult is not here */
     searchedCatway = searchResult ? parseInt(searchResult.value, 10) : null;
 
     if(!searchedCatway) {
@@ -140,12 +150,14 @@ const fetchGetAllReservationsFromCatway = async () => {
 
         const response = await fetch(`/catways/${searchedCatway}/reservations`);
 
+        /* Checks if security token is still here */
         checkIfExpired(response);
 
         const data = await response.json();
 
         if(response.status === 200) {
 
+            /* Displays the wanted section */
             selectSection('get-reservation-section');
 
             document.getElementById('response-message').textContent = '';
@@ -156,6 +168,7 @@ const fetchGetAllReservationsFromCatway = async () => {
                 reservationTableBody.textContent = '';
             }
 
+            /* Uses a display function to avoid redundancies in the code */
             data.forEach(reservation => {
                 displayReservationData(reservation, reservationTableBody);
             });
@@ -179,7 +192,7 @@ const fetchGetAllReservationsFromCatway = async () => {
  * 
  * @async
  * @function fetchGetOneReservation
- * 
+ * @requires utils
  */
 
 const fetchGetOneReservation = async () => {
@@ -207,6 +220,7 @@ const fetchGetOneReservation = async () => {
 
         const response = await fetch(`/catways/${searchedCatway}/reservations/${searchedReservation}`);
 
+        /* Checks if security token is still here */
         checkIfExpired(response);
 
         const data = await response.json();
@@ -216,8 +230,10 @@ const fetchGetOneReservation = async () => {
             savedClientName = data.clientName;
             savedBoatName = data.boatName;
 
+            /* Displays wanted section */
             selectSection('get-reservation-section');
 
+            /* Add displays of wanted div, which was not rendered properly during testing */
             selectSubDiv('update-reservation-div');
 
             document.getElementById('response-message').textContent = '';
@@ -228,6 +244,7 @@ const fetchGetOneReservation = async () => {
                 reservationTableBody.textContent = '';
             }
 
+            /* Uses general DOM manipulation function for a more compact code */
             displayReservationData(data, reservationTableBody);
 
         } else {
@@ -242,6 +259,16 @@ const fetchGetOneReservation = async () => {
 
     }
 };
+
+/** Queries the API to fetch the Update function from the reservations controller. <br>
+ * Renders data as a table or an error message. <br>
+ * Performs front end verification to ensure sent data is coherent. <br>
+ * Requires the displayReservationData function and utils function (expired section or messages).
+ * 
+ * @async
+ * @function fetchUpdateReservation
+ * @requires utils
+ */
 
 const fetchUpdateReservation = async () => {
 
@@ -263,6 +290,9 @@ const fetchUpdateReservation = async () => {
         sendMessage('La date de fin ne peut être antérieure à la date de début');
         return;
     }
+
+/* Payload must include every subdata (because I created models using the required attribute) 
+    even if they are not being modified */
 
     const payload = {
         catwayNumber : parseInt(searchedCatway),
@@ -313,6 +343,16 @@ const fetchUpdateReservation = async () => {
     }
 };
 
+/**Queries the API to fetch the Create function from the reservations controller. <br>
+ * Renders data as a table or an error message. <br>
+ * Performs front end verifications to ensure sent data is coherent. <br>
+ * Requires the displayReservationData function and utils function (expired section or messages). 
+ * 
+ * @async
+ * @function fetchCreateReservation
+ * @requires utils
+ */
+
 const fetchCreateReservation = async () => {
 
     const catwayNumber = document.querySelector('#catway-number').value.trim();
@@ -353,6 +393,8 @@ const fetchCreateReservation = async () => {
         return;
     }
 
+    /* Payload must include every subdata (because I created models using the required attribute) 
+    even if they are not being modified */
     const payload = {
 
         catwayNumber : catwayId,
@@ -407,6 +449,14 @@ const fetchCreateReservation = async () => {
     }
 };
 
+/** Queries the API to fetch the Delete function from the reservations controller. <br>
+ * Displays a message (either a success or an error) upon completion. 
+ * 
+ * @async
+ * @function fetchDeleteOneReservation
+ * @requires utils
+ */
+
 const fetchDeleteOneReservation = async () => {
 
     if(!searchedReservation){
@@ -420,13 +470,15 @@ const fetchDeleteOneReservation = async () => {
     }
 
     try {
-
+        /* No need the redeclare searchedCatway and searchedReservation as they are already declared in the get function,
+        which is mandatory to perform any delete operation anyway. */
         const response = await fetch(`/catways/${searchedCatway}/reservations/${searchedReservation}`, {
 
             method : 'DELETE'
 
         });
 
+        /* Checks for token */
         checkIfExpired(response);
 
         const data = await response.json();
@@ -452,6 +504,13 @@ const fetchDeleteOneReservation = async () => {
     }
 }; 
 
+/** Queries the API to fetch the logout function from the authentication controller. <br>
+ * Ensures session cookie is destroyed before redirection is performed. 
+ * 
+ * @async
+ * @function fetchLogout
+ */
+
 const fetchLogout = async () => {
 
     try {
@@ -470,7 +529,7 @@ const fetchLogout = async () => {
     }
 };
 
-
+/* Triggers the get all function */
 document.querySelector('#get-all-reservations-button').addEventListener('click', (e) => {
 
     e.preventDefault();
@@ -490,6 +549,7 @@ document.querySelector('#get-all-reservations-for-one-catway-button').addEventLi
     selectSection('catway-get-all-form');
 });
 
+/* Triggers the get all for one catway function */
 document.querySelector('#catway-get-all-form').addEventListener('submit', (e) => {
 
     e.preventDefault();
@@ -511,6 +571,7 @@ document.querySelector('#get-one-reservation-button').addEventListener('click', 
 
 });
 
+/* Triggers the get one function */
 document.querySelector('#get-one-reservation-form').addEventListener('submit', (e) => {
 
     e.preventDefault();
@@ -518,6 +579,7 @@ document.querySelector('#get-one-reservation-form').addEventListener('submit', (
     fetchGetOneReservation();
 }); 
 
+/* Triggers the update function */
 document.querySelector('#update-reservation-form').addEventListener('submit', (e) => {
 
     e.preventDefault();
@@ -525,6 +587,7 @@ document.querySelector('#update-reservation-form').addEventListener('submit', (e
     fetchUpdateReservation();
 });
 
+/* Displays the creation form */
 document.querySelector('#create-one-reservation-button').addEventListener('click', (e) => {
 
     e.preventDefault();
@@ -536,6 +599,7 @@ document.querySelector('#create-one-reservation-button').addEventListener('click
     selectSection('create-reservation-section');
 });
 
+/* Triggers the creation function */
 document.querySelector('#create-one-reservation-form').addEventListener('submit', (e) => {
 
     e.preventDefault();
@@ -546,6 +610,7 @@ document.querySelector('#create-one-reservation-form').addEventListener('submit'
 
 });
 
+/* Triggers the deletion function */
 document.querySelector('#delete-reservation-button').addEventListener('click', (e) => {
     
     e.preventDefault();

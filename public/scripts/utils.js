@@ -10,7 +10,7 @@ const checkIfExpired = (response) => {
     }
 
     return false;
-}
+};
 
 
 
@@ -37,7 +37,7 @@ const selectSection = (targetSection) => {
         target.style.display = 'block'
 
     }
-}
+};
 
 
 
@@ -64,7 +64,7 @@ const selectSubDiv = (targetDiv) => {
         target.style.display = 'block'
 
     }
-}
+};
 
 
 
@@ -84,7 +84,7 @@ const sendMessage = (data) => {
     }
 
 
-}
+};
 
 const messageFromCatch = (error) => {
 
@@ -100,5 +100,5 @@ const messageFromCatch = (error) => {
         message.appendChild(errorMessage);
 
     }
-}
+};
 
