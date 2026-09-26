@@ -194,6 +194,7 @@ const fetchUpdatePassword = async () => {
         document.querySelector('#update-password-form').reset();
     }
 
+    /* Payload must include every prop from the model even if they are not modified in the request (because of how the model is made) */
    const payload = {
 
     username : searchedUsername,
@@ -269,6 +270,7 @@ const fetchUpdateUsername = async () => {
         return;
     }
 
+    /* Payload must include every prop from the model even if they are not modified in the request (because of how the model is made) */
     const payload = {
         username : newUsername,
         email : searchedUserEmail,
