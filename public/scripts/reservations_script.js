@@ -99,6 +99,10 @@ const fetchGetAllReservations = async () => {
             /* Displays the wanted section */
             selectSection('get-reservation-section');
 
+            document.getElementById('get-all-title').style.display = 'block';
+            document.getElementById('get-one-title').style.display = 'none';
+            document.getElementById('update-reservation-div').style.display = 'none';
+
             document.getElementById('response-message').textContent = '';
 
             const reservationTableBody = document.getElementById('get-reservation-table-body');
@@ -158,6 +162,10 @@ const fetchGetAllReservationsFromCatway = async () => {
         const data = await response.json();
 
         if(response.status === 200) {
+
+            document.getElementById('get-all-title').style.display = 'block';
+            document.getElementById('get-one-title').style.display = 'none';
+            document.getElementById('update-reservation-div').style.display = 'none';
 
             /* Displays the wanted section */
             selectSection('get-reservation-section');
@@ -238,6 +246,8 @@ const fetchGetOneReservation = async () => {
             /* Add displays of wanted div, which was not rendered properly during testing */
             selectSubDiv('update-reservation-div');
 
+            document.getElementById('get-one-title').style.display = 'block';
+            document.getElementById('get-all-title').style.display = 'none';
             document.getElementById('response-message').textContent = '';
 
             const reservationTableBody = document.getElementById('get-reservation-table-body');
