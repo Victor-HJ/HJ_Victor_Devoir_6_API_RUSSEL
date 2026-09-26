@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: catways_script</title>
+    <title>JSDoc: Module: users_script</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: catways_script</h1>
+    <h1 class="page-title">Module: users_script</h1>
 
     
 
@@ -38,7 +38,7 @@
     <div class="container-overview">
     
         
-            <div class="description">Front-end script to manage the catway_view page. Handles async request via fetch, dynamic section togglingand DOM manipulation</div>
+            <div class="description">front-end logic to fetch every user-related function from the users controller and to manipulate DOM in orderto display received data or to send data.</div>
         
 
         
@@ -87,7 +87,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_scripts_catways_script.js.html">public/scripts/catways_script.js</a>, <a href="public_scripts_catways_script.js.html#line1">line 1</a>
+        <a href="public_scripts_users_script.js.html">public/scripts/users_script.js</a>, <a href="public_scripts_users_script.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -144,13 +144,13 @@
 
         
             
-<h4 class="name" id="~searchedCatwayNumber"><span class="type-signature">(inner) </span>searchedCatwayNumber<span class="type-signature"> :number|null</span></h4>
+<h4 class="name" id="~searchedUserEmail"><span class="type-signature">(inner) </span>searchedUserEmail<span class="type-signature"> :string|null</span></h4>
 
 
 
 
 <div class="description">
-    The number of the currently searched and saved catway in memory. null by default.Acts as a global reference variable for update (PUT) and delete (DELETE) requests
+    The email of the currently searched and saved user in memory (null by default). <br>Acts as a global reference variable for update (PUT) and delete (DELETE) operations.
 </div>
 
 
@@ -159,7 +159,7 @@
     <ul>
         <li>
             
-<span class="param-type">number</span>
+<span class="param-type">string</span>
 |
 
 <span class="param-type">null</span>
@@ -201,7 +201,69 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_scripts_catways_script.js.html">public/scripts/catways_script.js</a>, <a href="public_scripts_catways_script.js.html#line14">line 14</a>
+        <a href="public_scripts_users_script.js.html">public/scripts/users_script.js</a>, <a href="public_scripts_users_script.js.html#line13">line 13</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~searchedUsername"><span class="type-signature">(inner) </span>searchedUsername<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    The username of the currently searched and saved user in memory (null by default). <br>Acts as a global reference variable for updating the password.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="public_scripts_users_script.js.html">public/scripts/users_script.js</a>, <a href="public_scripts_users_script.js.html#line19">line 19</a>
     </li></ul></dd>
     
 
@@ -229,7 +291,7 @@
     
 
     
-    <h4 class="name" id="~createOneCatway"><span class="type-signature">(async, inner) </span>createOneCatway<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~fetchCreateOneUser"><span class="type-signature">(async, inner) </span>fetchCreateOneUser<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -237,7 +299,7 @@
 
 
 <div class="description">
-    Queries the API to fetch the create function from the controller (POST). <br>Manipulates DOM to render the new data as a table. <br>Forces logout if session has expired.
+    Queries the API to fetch the createOne function from the controller. <br>Performs front-end validity checks regarding length, etc. <br>
 </div>
 
 
@@ -281,7 +343,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_scripts_catways_script.js.html">public/scripts/catways_script.js</a>, <a href="public_scripts_catways_script.js.html#line294">line 294</a>
+        <a href="public_scripts_users_script.js.html">public/scripts/users_script.js</a>, <a href="public_scripts_users_script.js.html#line321">line 321</a>
     </li></ul></dd>
     
 
@@ -317,7 +379,7 @@
     
 
     
-    <h4 class="name" id="~deleteOneCatway"><span class="type-signature">(async, inner) </span>deleteOneCatway<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~fetchDeleteOneUser"><span class="type-signature">(async, inner) </span>fetchDeleteOneUser<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -325,7 +387,7 @@
 
 
 <div class="description">
-    Queries the API to fetch the delete function from the controller. <br>Can only be accessed after a search by number has been performed. <br>Asks for confirmation as an alert. <br>Manipulates DOM to render all the remaining catways after the deletion of a specific one. <br>Forces logout if session has expired.
+    Queries the API to fetch the deleteOne function from the controller.
 </div>
 
 
@@ -369,7 +431,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_scripts_catways_script.js.html">public/scripts/catways_script.js</a>, <a href="public_scripts_catways_script.js.html#line242">line 242</a>
+        <a href="public_scripts_users_script.js.html">public/scripts/users_script.js</a>, <a href="public_scripts_users_script.js.html#line406">line 406</a>
     </li></ul></dd>
     
 
@@ -405,7 +467,7 @@
     
 
     
-    <h4 class="name" id="~fetchGetAllCatways"><span class="type-signature">(async, inner) </span>fetchGetAllCatways<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~fetchGetAllUsers"><span class="type-signature">(async, inner) </span>fetchGetAllUsers<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -413,7 +475,7 @@
 
 
 <div class="description">
-    Queries the API to fetch the function to get ALL catways (controller). <br>Manipulates DOM to render as a table the data received. <br>Redirects user to root path if the security token has expired.
+    QUeries the API to fetch the getAll function from the controller; <br>Manipulates DOM to render received data as a table. <br>Forces logout if session has expired.
 </div>
 
 
@@ -457,7 +519,95 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_scripts_catways_script.js.html">public/scripts/catways_script.js</a>, <a href="public_scripts_catways_script.js.html#line17">line 17</a>
+        <a href="public_scripts_users_script.js.html">public/scripts/users_script.js</a>, <a href="public_scripts_users_script.js.html#line21">line 21</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~fetchGetOneUser"><span class="type-signature">(async, inner) </span>fetchGetOneUser<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Queries the API to fetch the getOne function from the users controller. <br>Manipulates DOM to render received data as a table. <br>Forces logout if session is expired.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="public_scripts_users_script.js.html">public/scripts/users_script.js</a>, <a href="public_scripts_users_script.js.html#line83">line 83</a>
     </li></ul></dd>
     
 
@@ -545,7 +695,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_scripts_catways_script.js.html">public/scripts/catways_script.js</a>, <a href="public_scripts_catways_script.js.html#line384">line 384</a>
+        <a href="public_scripts_users_script.js.html">public/scripts/users_script.js</a>, <a href="public_scripts_users_script.js.html#line455">line 455</a>
     </li></ul></dd>
     
 
@@ -581,7 +731,7 @@
     
 
     
-    <h4 class="name" id="~fetchOneCatway"><span class="type-signature">(async, inner) </span>fetchOneCatway<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~fetchUpdatePassword"><span class="type-signature">(async, inner) </span>fetchUpdatePassword<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -589,7 +739,7 @@
 
 
 <div class="description">
-    Queries the API to fetch the function to get one catway (controller). <br>Manipulates DOM to render the received data as a table. <br>Forces logout if the security token has expired.
+    Queries the API to fetch the updateOne function from the users controller. <br>Function for password is spearated from function for username (for simplicity purposes), even though the request is handled by the same controller. <br>Function performs front-end validity checks.
 </div>
 
 
@@ -633,7 +783,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_scripts_catways_script.js.html">public/scripts/catways_script.js</a>, <a href="public_scripts_catways_script.js.html#line87">line 87</a>
+        <a href="public_scripts_users_script.js.html">public/scripts/users_script.js</a>, <a href="public_scripts_users_script.js.html#line162">line 162</a>
     </li></ul></dd>
     
 
@@ -669,7 +819,7 @@
     
 
     
-    <h4 class="name" id="~updateOneCatway"><span class="type-signature">(async, inner) </span>updateOneCatway<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~fetchUpdateUsername"><span class="type-signature">(async, inner) </span>fetchUpdateUsername<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -677,7 +827,7 @@
 
 
 <div class="description">
-    Queries the API to fetch the function allowing the update (PUT) of a catway state after this specific catway has been searched for. <br>Manpiuluates DOM to display updated data as a table. <br>Forces logout if security token has expired.
+    Queries the API to fetch the updateOne function from the users controller. <br>Function performs front-end validity checks (length, etc).
 </div>
 
 
@@ -721,7 +871,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_scripts_catways_script.js.html">public/scripts/catways_script.js</a>, <a href="public_scripts_catways_script.js.html#line169">line 169</a>
+        <a href="public_scripts_users_script.js.html">public/scripts/users_script.js</a>, <a href="public_scripts_users_script.js.html#line239">line 239</a>
     </li></ul></dd>
     
 

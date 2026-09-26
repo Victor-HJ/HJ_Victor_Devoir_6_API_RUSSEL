@@ -265,6 +265,7 @@ exports.createUser = async (req, res, next) => {
  * Get user by email &lt;br>&lt;br>
  * 
  * - Check if user to modify exists (404) &lt;br>
+ * - Check if sent password from frontend is correct (401) &lt;br>
  * - Check if username is between 3 and 20 characters (400) &lt;br>
  * - Check if password is at least 8 characters (400) &lt;br>
  * - Check if username is already taken (409) &lt;br>
@@ -282,11 +283,11 @@ exports.createUser = async (req, res, next) => {
 
 exports.updateUser = async (req, res, next) => {
 
-    const {username, email, password} = req.body;
+    const {username, email, password, currentPassword} = req.body;
 
     try {
 
-        const userToUpdate = await User.findOne({email});
+        const userToUpdate = await User.findOne({email : req.params.email});
 
         if(!userToUpdate) {
 
@@ -294,13 +295,22 @@ exports.updateUser = async (req, res, next) => {
 
         } else {
 
-            if(userToUpdate.username.length &lt; 3 || userToUpdate.username.length > 20)  {
+            const correctPassword = await bcrypt.compare(currentPassword, userToUpdate.password);
 
-                return res.status(400).json("Le nom d'utilisateur doit faire entre 3 et 20 caractères");
+            if(!correctPassword) {
+
+                return res.status(401).json('Mot de passe incorrect, action refusée');
 
             }
 
-            if(userToUpdate.password.length &lt; 8) {
+            if(username &amp;&amp; (username.length &lt; 3 || username.length > 20)) {
+
+                return res.status(400).json("Le nom d'utilisateur doit faire entre 3 et 20 caractères");
+
+
+            }
+
+            if(password &amp;&amp; password.length &lt; 8) {
 
                 return res.status(400).json("Le mot de passe doit faire au moins 8 caractères");
 
@@ -316,16 +326,18 @@ exports.updateUser = async (req, res, next) => {
                     
                 }
 
+                /* Mandatory lines, otherwise Mongoose refuses to update the username for some reason */
+                userToUpdate.username = username;
+                userToUpdate.markModified('username');
             }
 
-            if (userToUpdate.email !== email) {
+            if(password){
 
-                return res.status(400).json("L'email associé à un compte ne peut être changé");
+                /* Mandatory lines, otherwise Mongoose refuses to update the password for some reason */
+                userToUpdate.password = password;
+                userToUpdate.markModified('password');
 
             }
-
-            userToUpdate.username = username;
-            userToUpdate.password = password;
 
             const updatedUser = await userToUpdate.save();
 
@@ -334,7 +346,7 @@ exports.updateUser = async (req, res, next) => {
         }
     } catch (error) {
 
-        return res.status(500).json("Erreur lors de la mise à jour de l'utilisateur");
+        return res.status(500).json("Erreur interne lors de la mise à jour de l'utilisateur");
 
     }
 }
@@ -386,13 +398,13 @@ exports.deleteUser = async (req, res, next) => {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-catways_script.html">catways_script</a></li><li><a href="module-controllers_authentication.html">controllers/authentication</a></li><li><a href="module-controllers_catways.html">controllers/catways</a></li><li><a href="module-controllers_reservations.html">controllers/reservations</a></li><li><a href="module-controllers_users.html">controllers/users</a></li><li><a href="module-middlewares_private.html">middlewares/private</a></li><li><a href="module-routes_authentication.html">routes/authentication</a></li><li><a href="module-routes_catways.html">routes/catways</a></li><li><a href="module-routes_reservations.html">routes/reservations</a></li><li><a href="module-routes_users.html">routes/users</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-catways_script.html">catways_script</a></li><li><a href="module-controllers_authentication.html">controllers/authentication</a></li><li><a href="module-controllers_catways.html">controllers/catways</a></li><li><a href="module-controllers_reservations.html">controllers/reservations</a></li><li><a href="module-controllers_users.html">controllers/users</a></li><li><a href="module-dashboard-script.html">dashboard-script</a></li><li><a href="module-middlewares_private.html">middlewares/private</a></li><li><a href="module-reservations_script.html">reservations_script</a></li><li><a href="module-routes_authentication.html">routes/authentication</a></li><li><a href="module-routes_catways.html">routes/catways</a></li><li><a href="module-routes_reservations.html">routes/reservations</a></li><li><a href="module-routes_users.html">routes/users</a></li><li><a href="module-users_script.html">users_script</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Sun Sep 20 2026 18:32:00 GMT+0200 (heure d’été d’Europe centrale)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Sat Sep 26 2026 20:04:04 GMT+0200 (heure d’été d’Europe centrale)
 </footer>
 
 <script> prettyPrint(); </script>

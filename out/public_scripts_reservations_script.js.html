@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: public/scripts/reservations_script.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: public/scripts/reservations_script.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * @fileoverview Front-end script to manage the reservations_view page. Handles async requests via fetch and DOM manipulation.
  * 
  * @module reservations_script
@@ -9,14 +37,14 @@
  */
 
 /**
- * The ID of the currently searched and saved reservation, null by default. <br>
+ * The ID of the currently searched and saved reservation, null by default. &lt;br>
  * Acts as a global reference variable for PUT and DELETE requests.
  * @type {string}
  */
 let searchedReservation = null;
 
 /**
- * The number of the currently searched and saved catway, null by default. <br>
+ * The number of the currently searched and saved catway, null by default. &lt;br>
  * Acts as a global reference variable, used to display every reservations made for one catway in the future.
  * @type {number}
  */
@@ -75,7 +103,7 @@ const displayReservationData = (item, targetTableBody) => {
 };
 
 /**
- * Fetches all existing reservations. <br>
+ * Fetches all existing reservations. &lt;br>
  * 
  * @async
  * @function fetchGetAllReservations
@@ -126,7 +154,7 @@ const fetchGetAllReservations = async () => {
 };
 
 /**
- * Fetches all existing reservations on one specific catway. <br>
+ * Fetches all existing reservations on one specific catway. &lt;br>
  * 
  * @async
  * @function fetchGetAllReservationsFromCatway
@@ -189,7 +217,7 @@ const fetchGetAllReservationsFromCatway = async () => {
 };
 
 /**
- * Fetches one specific reservation made on a specific catway. <br>
+ * Fetches one specific reservation made on a specific catway. &lt;br>
  * 
  * @async
  * @function fetchGetOneReservation
@@ -262,8 +290,8 @@ const fetchGetOneReservation = async () => {
     }
 };
 
-/** Queries the API to fetch the Update function from the reservations controller. <br>
- * Performs front end verification to ensure sent data is coherent. <br>
+/** Queries the API to fetch the Update function from the reservations controller. &lt;br>
+ * Performs front end verification to ensure sent data is coherent. &lt;br>
  * Requires the displayReservationData function and utils function (expired section or messages).
  * 
  * @async
@@ -325,7 +353,7 @@ const fetchUpdateReservation = async () => {
             const startCell = document.querySelector('#get-reservation-table-body tr td:nth-child(5)');
             const endCell = document.querySelector('#get-reservation-table-body tr td:nth-child(6)');
 
-            if(startCell && endCell) {
+            if(startCell &amp;&amp; endCell) {
 
                 startCell.textContent = new Date(newStart).toLocaleDateString('fr-FR');
                 endCell.textContent = new Date(newEnd).toLocaleDateString('fr-FR');
@@ -345,8 +373,8 @@ const fetchUpdateReservation = async () => {
     }
 };
 
-/**Queries the API to fetch the Create function from the reservations controller. <br>
- * Performs front end verifications to ensure sent data is coherent. <br>
+/**Queries the API to fetch the Create function from the reservations controller. &lt;br>
+ * Performs front end verifications to ensure sent data is coherent. &lt;br>
  * Requires the displayReservationData function and utils function (expired section or messages). 
  * 
  * @async
@@ -371,13 +399,13 @@ const fetchCreateReservation = async () => {
         return;
     }
 
-    if(boatName.length < 3) {
+    if(boatName.length &lt; 3) {
 
         sendMessage('Le nom du bateau ne peut faire moins de 3 caractères');
         return;
     }
 
-    if(clientName.length < 3) {
+    if(clientName.length &lt; 3) {
 
         sendMessage('Le nom du client ne peut faire moins de 3 caractères');
         return;
@@ -451,7 +479,7 @@ const fetchCreateReservation = async () => {
     }
 };
 
-/** Queries the API to fetch the Delete function from the reservations controller. <br>
+/** Queries the API to fetch the Delete function from the reservations controller. &lt;br>
  * 
  * @async
  * @function fetchDeleteOneReservation
@@ -506,7 +534,7 @@ const fetchDeleteOneReservation = async () => {
     }
 }; 
 
-/** Queries the API to fetch the logout function from the authentication controller. <br>
+/** Queries the API to fetch the logout function from the authentication controller. &lt;br>
  * Ensures session cookie is destroyed before redirection is performed. 
  * 
  * @async
@@ -627,4 +655,26 @@ document.querySelector('#logout').addEventListener('click', (e) => {
     e.preventDefault();
 
     fetchLogout();
-});
+});</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-catways_script.html">catways_script</a></li><li><a href="module-controllers_authentication.html">controllers/authentication</a></li><li><a href="module-controllers_catways.html">controllers/catways</a></li><li><a href="module-controllers_reservations.html">controllers/reservations</a></li><li><a href="module-controllers_users.html">controllers/users</a></li><li><a href="module-dashboard-script.html">dashboard-script</a></li><li><a href="module-middlewares_private.html">middlewares/private</a></li><li><a href="module-reservations_script.html">reservations_script</a></li><li><a href="module-routes_authentication.html">routes/authentication</a></li><li><a href="module-routes_catways.html">routes/catways</a></li><li><a href="module-routes_reservations.html">routes/reservations</a></li><li><a href="module-routes_users.html">routes/users</a></li><li><a href="module-users_script.html">users_script</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Sat Sep 26 2026 20:04:04 GMT+0200 (heure d’été d’Europe centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
