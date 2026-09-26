@@ -3,6 +3,9 @@
  * and DOM manipulation
  * @module catways_script
  * @requires window.fetch
+ * @requires controllers/catways
+ * @requires utils
+ * @requires controllers/authentication
  */
 
 /**
@@ -13,14 +16,43 @@
 
 let searchedCatwayNumber = null;
 
+/**
+ * Sub-function to append a row to a table body.
+ * 
+ * @param {Object} item - One catway Object
+ * @param {HTMLElement} targetTableBody - The tbody element to be completed
+ */
+
+const displayCatwayData = async (item, targetTableBody) => {
+
+    if(!targetTableBody) {
+        return;
+    }
+
+    const row = document.createElement('tr');
+
+    const numberCell = document.createElement('td');
+    const typeCell = document.createElement('td');
+    const stateCell = document.createElement('td');
+
+    numberCell.textContent = item.catwayNumber;
+    typeCell.textContent = item.catwayType;
+    stateCell.textContent = item.catwayState;
+
+    row.appendChild(numberCell);
+    row.appendChild(typeCell);
+    row.appendChild(stateCell);
+
+    targetTableBody.appendChild(row);
+}
+
 
 /**
  * Queries the API to fetch the function to get ALL catways (controller). <br>
- * Manipulates DOM to render as a table the data received. <br>
- * Redirects user to root path if the security token has expired. 
  * 
  * @async
  * @function fetchGetAllCatways
+ * @returns {Promise} Either a table with received data or an error message. 
  */
 
 const fetchGetAllCatways = async () => {
@@ -29,51 +61,34 @@ const fetchGetAllCatways = async () => {
 
         const response = await fetch('/catways');
 
+        /* Checks for security token */
         checkIfExpired(response);
 
         const data = await response.json();
 
-        const allCatways = document.getElementById('get-all-catways-table-body');
+        const allCatways = document.getElementById('get-catways-table-body');
 
+        /* Avoids multiple displays of the same list */
         allCatways.textContent = '';
 
-        selectSection('get-all-catways-section');
+        selectSection('get-catways-section');
 
         if(response.status === 200) {
 
-            /* Creates a row for every existing catway and appends every catway's props to a cell */
+            document.getElementById('get-all-catways-title').style.display = 'block';
+            document.getElementById('get-one-catway-title').style.display = 'none';
+            document.getElementById('update-catway-div').style.display = 'none';
 
+            /* Creates a row for every existing catway and appends every catway's props to a cell */
             data.forEach(catway => {
 
-                const row = document.createElement('tr');
+                displayCatwayData(catway, allCatways);
 
-                    const numberCell = document.createElement('td');
-                    const typeCell = document.createElement('td');
-                    const stateCell = document.createElement('td');
-
-                    numberCell.textContent = catway.catwayNumber;
-                    typeCell.textContent = catway.catwayType;
-                    stateCell.textContent = catway.catwayState;
-
-                    row.appendChild(numberCell);
-                    row.appendChild(typeCell);
-                    row.appendChild(stateCell);
-
-                    allCatways.appendChild(row);
-                });
+            });
 
         } else {
 
-            /* Creates one row to display the error as a table cell */
-
-            const errorRow = document.createElement('tr');
-            const errorCell = document.createElement('td');
-
-            errorCell.colSpan = 3;
-            errorCell.textContent = data;
-                    
-            errorRow.appendChild(errorCell);
-            allCatways.appendChild(errorRow);
+           sendMessage(data);
 
         }
                 
@@ -86,12 +101,12 @@ const fetchGetAllCatways = async () => {
 
 /**
  * Queries the API to fetch the function to get one catway (controller). <br>
- * Manipulates DOM to render the received data as a table. <br>
- * Forces logout if the security token has expired.
  * 
  * @async
  * @function fetchOneCatway
+ * @returns {Promise} Either a table with data from one catway or an error message.
  */
+
 const fetchOneCatway = async () => {
 
     const inputElement = document.querySelector('#number');
@@ -101,65 +116,37 @@ const fetchOneCatway = async () => {
 
         const response = await fetch (`/catways/${catwayId}`);
 
+        /* Checks token */
         checkIfExpired(response);
         
         const data = await response.json();
 
-        const oneCatway = document.getElementById('get-one-catway-table-body');
+        const oneCatway = document.getElementById('get-catways-table-body');
 
         /* Resets table to prevent the display of several catways at once */
-
         oneCatway.textContent = '';
 
-        selectSection('get-one-catway-section')
+        selectSection('get-catways-section')
 
         if(response.status === 200) {
+
+            document.getElementById('get-one-catway-title').style.display = 'block';
+            document.getElementById('get-all-catways-title').style.display = 'none';
+
+            selectSubDiv('update-catway-div');
 
             /* Uses the global variable to automatically fetch the catway number researched and saves it for the next opeation*/
             searchedCatwayNumber = data.catwayNumber;
 
-            /* Creates a table row to display the researched catway and appends every info to a cell */
-
-            const row = document.createElement('tr');
-
-            const numberCell = document.createElement('td');
-            const typeCell = document.createElement('td');
-            const stateCell = document.createElement('td');
-
-            numberCell.textContent = data.catwayNumber;
-            typeCell.textContent = data.catwayType;
-            stateCell.textContent = data.catwayState;
-
-            row.appendChild(numberCell);
-            row.appendChild(typeCell);
-            row.appendChild(stateCell);
-
-            oneCatway.appendChild(row);
+            displayCatwayData(data, oneCatway);
 
         } else {
 
-            /* Resets the global variable */
-            searchedCatwayNumber = null;
-
-            /* Still displaying an error as a table cell */
-            const errorRow = document.createElement('tr');
-            const errorCell = document.createElement('td');
-            errorCell.colSpan = 3;
-
-            errorRow.appendChild(errorCell);
-            oneCatway.appendChild(errorRow);
-
-            errorCell.textContent = data;
+            sendMessage(data);
 
         }
-            
-        /* Resets the research form */
-        const resetForm = document.querySelector('#get-one-catway-form');
-        resetForm.reset();
 
     } catch (error) {
-
-        searchedCatwayNumber = null;
 
         messageFromCatch(error);
 
@@ -167,28 +154,25 @@ const fetchOneCatway = async () => {
 };
 
 /**
- * Queries the API to fetch the function allowing the update (PUT) of a catway state after this specific catway has been searched for. <br>
- * Manpiuluates DOM to display updated data as a table. <br>
- * Forces logout if security token has expired.
+ * Queries the API to fetch the function allowing the update (PUT) of a catway state after this specific catway has been searched for.
  * 
  * @async
  * @function updateOneCatway
+ * @returns {Promise} Either a table with new data or an error message. 
  */
 
 const updateOneCatway = async () => {
 
     /* Security (if the global variable value wasn't saved for any reason whatsoever) */
     if(!searchedCatwayNumber) {
-
         return;
-
     }
 
     const stateInput = document.querySelector('#update-catway-form input[type="textarea"]');
     const newStateValue = stateInput.value.trim();
 
     /* Is necessary because the controller checks if every required data is sent with the request, otherwise it triggers an error */
-    const typeCell = document.querySelector('#get-one-catway-table-body tr td:nth-child(2)');
+    const typeCell = document.querySelector('#get-catways-table-body tr td:nth-child(2)');
     const currentType = typeCell.textContent.trim();
 
     try {
@@ -207,13 +191,14 @@ const updateOneCatway = async () => {
             })
         });
 
+        /* Checks token*/
         checkIfExpired(response);
 
         const data = await response.json();
 
         if(response.status === 201) {
 
-            const stateCell = document.querySelector('#get-one-catway-table-body tr td:nth-child(3)');
+            const stateCell = document.querySelector('#get-catways-table-body tr td:nth-child(3)');
 
             /* Modifies the cell without having to send a new get request */
             if(stateCell) {
@@ -243,11 +228,10 @@ const updateOneCatway = async () => {
  * Queries the API to fetch the delete function from the controller. <br>
  * Can only be accessed after a search by number has been performed. <br>
  * Asks for confirmation as an alert. <br>
- * Manipulates DOM to render all the remaining catways after the deletion of a specific one. <br>
- * Forces logout if session has expired.
  * 
  * @async
  * @function deleteOneCatway
+ * @returns {Promise} Either a success / error message. 
  */
 
 const deleteOneCatway = async () => {
@@ -270,6 +254,7 @@ const deleteOneCatway = async () => {
 
         });
 
+        /* Checks token */
         checkIfExpired(response);
 
         const data = await response.json();
@@ -293,11 +278,11 @@ const deleteOneCatway = async () => {
 
 /**
  * Queries the API to fetch the create function from the controller (POST). <br>
- * Manipulates DOM to render the new data as a table. <br>
  * Forces logout if session has expired.
  * 
  * @async
  * @function createOneCatway
+ * @returns {Promise} Either a table with new data or an error message. 
  */
 
 const createOneCatway = async () => {
@@ -327,39 +312,25 @@ const createOneCatway = async () => {
             })
         });
 
+        /* Checks token */
         checkIfExpired(response);
 
         const data = await response.json();
 
         if(response.status === 201) {
 
+            /* Saves the number (if an update is sent right after the creation) */
             searchedCatwayNumber = data.catwayNumber;
 
-            const tableBody = document.getElementById('get-one-catway-table-body');
+            const tableBody = document.getElementById('get-catways-table-body');
 
-            /* Displaying a row allows to avoid another request (getOne) */
-            if(tableBody){
+            displayCatwayData(data, tableBody);
 
-                tableBody.textContent = '';
+            /* Displays wanted section */
+            selectSection('get-catways-section');
 
-                const row = document.createElement('tr');
-                const numberCell = document.createElement('td');
-                const typeCell = document.createElement('td');
-                const stateCell = document.createElement('td');
-
-                numberCell.textContent = data.catwayNumber;
-                typeCell.textContent = data.catwayType;
-                stateCell.textContent = data.catwayState;
-
-                row.appendChild(numberCell);
-                row.appendChild(typeCell);
-                row.appendChild(stateCell);
-
-                tableBody.appendChild(row);
-
-            }
-
-            selectSection('get-one-catway-section');
+            /* Displays the update section (if an update is wanted right away) */
+            selectSubDiv('update-catway-div');
 
             sendMessage('Catway créé avec succès');
 
@@ -451,9 +422,9 @@ displayCreationForm.addEventListener('click', (e) => {
 
 
 /* get getOne (included in the createOne function) */
-const createOne = document.querySelector('#submit-new-catway');
+const createOne = document.querySelector('#create-one-catway-form');
 
-createOne.addEventListener('click', (e) => {
+createOne.addEventListener('submit', (e) => {
 
     e.preventDefault();
 
@@ -462,28 +433,28 @@ createOne.addEventListener('click', (e) => {
 
 
 /* get one catway section */
-const displayOne = document.querySelector('#submit-number');
+const displayOne = document.querySelector('#get-one-catway-form');
 
-displayOne.addEventListener('click', (e) => {
+displayOne.addEventListener('submit', (e) => {
 
     e.preventDefault();
 
     const message = document.getElementById('response-message');
 
-    message.textcontent = '';
+    message.textContent = '';
 
     fetchOneCatway();
 });
 
 
 /* get one catway section once a catway has been updated */
-const displayUpdated = document.querySelector('#update-catway-confirm');
+const displayUpdated = document.querySelector('#update-catway-form');
 
-displayUpdated.addEventListener('click', (e) => {
+displayUpdated.addEventListener('submit', (e) => {
 
     e.preventDefault();
 
-    selectSection('get-one-catway-section');
+    selectSection('get-catways-section');
 
     updateOneCatway();
 });

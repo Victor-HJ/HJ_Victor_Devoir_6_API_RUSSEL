@@ -43,11 +43,12 @@
 
         </form>
 
-        <section id="get-all-catways-section" class="get-all-section CRUD-sections" style="display: none;">
+        <section id="get-catways-section" class="get-all-section CRUD-sections" style="display: none;">
 
-            <h3> Liste des catways </h3>
+            <h2 id="get-all-catways-title" style="display: none;"> Liste des catways </h2>
+            <h2 id="get-one-catway-title" style="display: none;"> Recherche et modification d'un catway </h2>
 
-            <table class="get-all-table">
+            <table class="get-table">
                 <thead>
 
                     <tr>
@@ -58,26 +59,10 @@
 
                 </thead>
 
-                <tbody id="get-all-catways-table-body"></tbody>
+                <tbody id="get-catways-table-body"></tbody>
             </table>
-        </section>
 
-        <section id="get-one-catway-section" class="get-one-section CRUD-sections" style="display: none;">
-
-            <h3> Recherche et modification d'un catway </h3>
-
-                <table class="get-one-table">
-
-                    <thead>
-                        <tr>
-                            <th> Numéro du catway </th>
-                            <th> Type du catway </th>
-                            <th> Etat du catway </th>
-                        </tr>
-                    </thead>
-
-                    <tbody id="get-one-catway-table-body"></tbody>
-                </table>
+            <div id="update-catway-div" style="display: none;">
 
                 <div>
                     <form id="update-catway-form">
@@ -94,7 +79,7 @@
                     <button id="delete-catway-button"> Supprimer le catway </button>
 
                 </div>
-
+            </div>
         </section>
 
         <section id="create-one-catway-section" class="create-one-section CRUD-sections" style="display: none;">
@@ -131,7 +116,7 @@
 
                 <div class="create-form-inner-div">
 
-                    <button type="submit" id="submit-new-catway"> Créer le catway </button>
+                    <button type="submit"> Créer le catway </button>
 
                 </div>
             </form>
