@@ -18,9 +18,8 @@ const SECRET_KEY = process.env.SECRET_KEY;
  */
 
 exports.checkJWT = async (req, res, next) => {
-    console.log(req.cookies);
+
     const token = req.cookies.token;
-    console.log(token);
 
     if(!token) {
         console.log('no token');

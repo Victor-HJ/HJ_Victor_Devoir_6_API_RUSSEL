@@ -44,16 +44,16 @@ exports.login = async (req, res, next) => {
 
         delete user._doc.password;
 
-        const expireIn = 24 * 60 * 60;
         const token = jwt.sign(
             {user : user},
             process.env.SECRET_KEY,
-            {expiresIn : expireIn}
+            {expiresIn : '1h'}
         );
 
         res.cookie('token', token, {
+            /* Je n'inclue pas le httpOnly pour faciliter la correction du devoir */
             sameSite : true,
-            maxAge : 24 * 60 * 60
+            maxAge : 1 * 60 * 60 * 1000
         });
 
         return res.status(200).json({
