@@ -41,11 +41,12 @@
             </div>
         </form>
 
-        <section id="get-all-users-section" class="CRUD-sections get-all-section" style="display: none;">
+        <section id="get-users-section" class="CRUD-sections get-all-section" style="display: none;">
 
-            <h2> Liste des utilisateurs </h2>
+            <h2 id="get-all-users-title" style="display: none;"> Liste des utilisateurs </h2>
+            <h2 id="get-one-user-title" style="display: none;"> Recherche et modification d'un utilisateur </h3>
 
-            <table class="get-all-table">
+            <table class="get-table">
                 <thead>
 
                     <tr>
@@ -55,26 +56,10 @@
 
                 </thead>
 
-                <tbody id="get-all-users-table-body"></tbody>
+                <tbody id="get-users-table-body"></tbody>
             </table>
 
-        </section>
-
-        <section id="get-one-user-section" class="get-one-section CRUD-sections" style="display: none;">
-
-            <h2> Recherche et modification d'un utilisateur </h3>
-
-                <table class="get-one-table">
-
-                    <thead>
-                        <tr>
-                            <th> Nom de l'utilisateur </th>
-                            <th> Email de l'utilisateur </th>
-                        </tr>
-                    </thead>
-
-                    <tbody id="get-one-user-table-body"></tbody>
-                </table>
+            <div id="update-user-div">
 
                 <div id="actions-on-user-buttons">
                     <button id="update-username"> Changer le nom d'utilisateur </button>
@@ -103,7 +88,7 @@
 
                 <div id="password-update-div" class="update-or-delete-divs" style="display: none;">
 
-                    <h4> Modifier le mot de passe </h4>
+                    <h3> Modifier le mot de passe </h3>
 
                     <form id="update-password-form">
 
@@ -123,6 +108,8 @@
                         <button type="submit" id="submit-new-password"> Enregistrer </button>
 
                     </form>
+                </div>
+            </div>
         </section>
 
         <section id="create-one-user-section" class="CRUD-sections create-section" style="display: none;">

@@ -23,7 +23,7 @@ let searchedCatwayNumber = null;
  * @param {HTMLElement} targetTableBody - The tbody element to be completed
  */
 
-const displayCatwayData = async (item, targetTableBody) => {
+const displayCatwayData = (item, targetTableBody) => {
 
     if(!targetTableBody) {
         return;

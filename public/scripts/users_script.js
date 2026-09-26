@@ -3,6 +3,9 @@
  * to display received data or to send data.
  * @module users_script
  * @requires window.fetch
+ * @requires controllers/users
+ * @requires controllers/authentication
+ * @requires utils
  */
 
 /** The email of the currently searched and saved user in memory (null by default). <br>
@@ -18,12 +21,38 @@ let searchedUserEmail = null;
  */
 let searchedUsername = null;
 
+/**
+ * Manipulates DOM to render data as a table row
+ * @param {Object} item - One user object
+ * @param {HTMLElement} targetTableBody - The tbody needing to be updated
+ */
+
+const displayUserData = (item, targetTableBody) => {
+
+    if(!targetTableBody){
+        return;
+    }
+
+    const row = document.createElement('tr');
+
+    const nameCell = document.createElement('td');
+    const mailCell = document.createElement('td');
+
+    nameCell.textContent = item.username;
+    mailCell.textContent = item.email;
+
+    row.appendChild(nameCell);
+    row.appendChild(mailCell);
+
+    targetTableBody.appendChild(row);
+}
+
+
 /** QUeries the API to fetch the getAll function from the controller; <br>
- * Manipulates DOM to render received data as a table. <br>
- * Forces logout if session has expired.
  * 
  * @async
  * @function fetchGetAllUsers
+ * @returns {Promise} Either a table with every user data (except password) or an error message.
  */
 
 const fetchGetAllUsers = async () => {
@@ -36,42 +65,25 @@ const fetchGetAllUsers = async () => {
 
         const data = await response.json();
 
-        const allUsers = document.getElementById('get-all-users-table-body');
+        const allUsers = document.getElementById('get-users-table-body');
         allUsers.textContent = '';
 
-        selectSection('get-all-users-section');
+        selectSection('get-users-section');
+
+        document.getElementById('update-user-div').style.display = 'none';
 
         if(response.status === 200){
 
+            document.getElementById('get-all-users-title').style.display = 'block';
+            document.getElementById('get-one-user-title').style.display = 'none';
+
             data.forEach(user => {
-
-                /* Creates one row for each user and one cell appended to that row for each user's prop */
-
-                const row = document.createElement('tr');
-
-                const usernameCell = document.createElement('td');
-                const emailCell = document.createElement('td');
-
-                usernameCell.textContent = user.username;
-                emailCell.textContent = user.email;
-
-                row.appendChild(usernameCell);
-                row.appendChild(emailCell);
-                allUsers.appendChild(row);
+                displayUserData(user, allUsers)
             });
 
         } else {
 
-            /* Creates one row to display the error as a table cell */
-
-            const errorRow = document.createElement('tr');
-            const errorCell = document.createElement('td');
-
-            errorCell.colSpan = 2;
-            errorCell.textContent = data;
-
-            errorRow.appendChild(errorCell);
-            allUsers.appendChild(errorRow);
+            sendMessage(data);
         }
 
     } catch (error) {
@@ -81,11 +93,10 @@ const fetchGetAllUsers = async () => {
 };
 
 /** Queries the API to fetch the getOne function from the users controller. <br>
- * Manipulates DOM to render received data as a table. <br>
- * Forces logout if session is expired.
  * 
  * @async
  * @function fetchGetOneUser
+ * @returns {Promise} Either a table with received data or an error message. 
  */
 
 const fetchGetOneUser = async () => {
@@ -110,47 +121,31 @@ const fetchGetOneUser = async () => {
 
         const data = await response.json();
 
-        const oneUser = document.getElementById('get-one-user-table-body');
+        const oneUser = document.getElementById('get-users-table-body');
         const message = document.getElementById('response-message');
         message.textContent = '';
         oneUser.textContent = '';
 
-        selectSection('get-one-user-section');
-
         if(response.status === 200) {
+
+            selectSection('get-users-section');
+
+            document.getElementById('update-user-div').style.display = 'block';
+            document.getElementById('get-all-users-title').style.display = 'none';
+            document.getElementById('get-one-user-title').style.display = 'block';
 
             /* Saves user email for future operations */
             searchedUserEmail = data.email;
             /* Username will be used in the body of future put requests */
             searchedUsername = data.username;
 
-            const row = document.createElement('tr');
-
-            const usernameCell = document.createElement('td');
-            const emailCell = document.createElement('td');
-
-            usernameCell.textContent = data.username;
-            emailCell.textContent = data.email;
-
-            row.appendChild(usernameCell);
-            row.appendChild(emailCell);
-            oneUser.appendChild(row);
+            displayUserData(data, oneUser);
 
         } else {
 
-            const row = document.createElement('tr');
-            const errorCell = document.createElement('td');
-
-            errorCell.colSpan = 2;
-            errorCell.textContent = data;
-
-            row.appendChild(errorCell);
-            oneUser.appendChild(row);
+            sendMessage(data);
 
         }
-
-        const research = document.querySelector('#email');
-        research.value = '';
 
     } catch (error) {
 
@@ -165,6 +160,7 @@ const fetchGetOneUser = async () => {
  * 
  * @async 
  * @function fetchUpdatePassword
+ * @returns {Promise} Either a success or error message. 
  */
 
 const fetchUpdatePassword = async () => {
@@ -241,6 +237,7 @@ const fetchUpdatePassword = async () => {
  * 
  * @async
  * @function fetchUpdateUsername
+ * @returns {Promise} An updated table with the new username
  */
 const fetchUpdateUsername = async () => {
 
@@ -295,7 +292,7 @@ const fetchUpdateUsername = async () => {
             sendMessage("Nom d'utilisateur modifié avec succès");
 
             /* Avoids sending another get request, may as well perform a front-end update */
-            const newCell = document.querySelector('#get-one-user-table-body tr td:nth-child(1)');
+            const newCell = document.querySelector('#get-users-table-body tr td:nth-child(1)');
 
             if(newCell){
 
@@ -323,6 +320,7 @@ const fetchUpdateUsername = async () => {
  * 
  * @async
  * @function fetchCreateOneUser
+ * @returns {Promise} A table with the new user data.
  */
 const fetchCreateOneUser = async () => {
 
@@ -367,22 +365,18 @@ const fetchCreateOneUser = async () => {
 
             searchedUserEmail = data.email;
 
-            const tableBody = document.getElementById('get-one-user-table-body');
+            const tableBody = document.getElementById('get-users-table-body');
+
+            /* Prevents multiple users from being displayed if previous actions have been taken */
+            tableBody.textContent = '';
 
             if(tableBody) {
 
-                const row = document.createElement('tr');
-                const usernameCell = document.createElement('td');
-                const mailCell = document.createElement('td');
+                displayUserData(data, tableBody);
 
-                usernameCell.textContent = data.username;
-                mailCell.textContent = data.email;
+                selectSection('get-users-section');
 
-                row.appendChild(usernameCell);
-                row.appendChild(mailCell);
-                tableBody.appendChild(row);
-
-                selectSection('get-one-user-section');
+                document.getElementById('update-user-div').style.display = 'block';
 
                 sendMessage('Utilisateur créé avec succès');
 
@@ -407,6 +401,7 @@ const fetchCreateOneUser = async () => {
  * 
  * @async
  * @function fetchDeleteOneUser
+ * @returns {Promise} Either a success or error message. 
  */
 
 const fetchDeleteOneUser = async () => {
@@ -434,9 +429,9 @@ const fetchDeleteOneUser = async () => {
 
         if(response.status === 200){
 
-            sendMessage(data);
+            sendMessage('Utilisateur supprimé');
 
-            const hide = document.getElementById('get-one-user-section');
+            const hide = document.getElementById('get-users-section');
 
             hide.style.display = 'none';
 
@@ -568,7 +563,7 @@ document.querySelector('#delete-user').addEventListener('click', (e) => {
 
     fetchDeleteOneUser();
 
-    document.querySelector('#get-one-user-section').style.display = 'none';
+    document.querySelector('#get-users-section').style.display = 'none';
 });
 
 /* Allows the cookie deletion */
