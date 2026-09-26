@@ -46,6 +46,10 @@ router.get('/users_view', secure.checkJWT, async (req, res) => {
   res.render('users_view')
 });
 
+router.get('/reservations_view', secure.checkJWT, async (req, res) => {
+  res.render('reservations_view')
+});
+
 router.use('/catways', catwayRoute);
 router.use('/users', userRoute);
 router.use('/reservations', reservationRoute);

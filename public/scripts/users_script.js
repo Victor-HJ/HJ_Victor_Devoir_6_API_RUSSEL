@@ -577,4 +577,4 @@ document.querySelector('#logout').addEventListener('click', (e) => {
     e.preventDefault();
 
     fetchLogout();
-})
+});

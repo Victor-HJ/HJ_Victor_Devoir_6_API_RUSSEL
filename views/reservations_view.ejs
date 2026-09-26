@@ -21,29 +21,47 @@
 
     <main>
         <div class="main-menu">
-            <button class="actions-menu-button"> Afficher toutes les réservations </button>
-            <button class="actions-menu-button"> Trouver une réservation </button>
-            <button class="actions-menu-button"> Créer une réservation </button>
+            <button class="actions-menu-button" id="get-all-reservations-button"> Afficher toutes les réservations </button>
+            <button class="actions-menu-button" id="get-all-reservations-for-one-catway-button"> Afficher toutes les réservations d'un catway </button>
+            <button class="actions-menu-button" id="get-one-reservation-button"> Trouver une réservation </button>
+            <button class="actions-menu-button" id="create-one-reservation-button"> Créer une réservation </button>
         </div>
 
         <div id="response-message"></div>
 
         <form id="get-one-reservation-form" class="CRUD-sections" style="display: none;">
+
+            <div>
+                <label for="associatedCatway"> Catway de la réservation </label>
+                <input type="number" name="associatedCatway" id="associatedCatway">
+            </div>
             <div>
                 <label for="id"> ID de réservation </label>
-                <input type="text" name="id" required>
+                <input type="text" name="id" id="id" required>
             </div>
 
             <div>
-                <button id="submit-id"> Recherche </button>
+                <button id="submit-research"> Recherche </button>
             </div>
         </form>
 
-        <section id="get-all-reservations-section" class="CRUD-sections" style="display: none;">
+        <form id="catway-get-all-form" class="CRUD-sections" style="display: none;">
+            <div>
+                <label for="get-all-for-catway"> Numéro de catway </label>
+                <input type="number" name="get-all-for-catway" id="get-all-for-catway" required>
+            </div>
 
-            <h2> Liste des réservations </h2>
+            <div>
+                <button id="submit-catway-number"> Recherche </button>
+            </div>
+        </form>
 
-            <table class="get-all-table">
+        <section id="get-reservation-section" class="CRUD-sections" style="display: none;">
+
+            <h2 id="get-all-title" style="display: none;"> Liste des réservations </h2>
+            <h2 id="get-one-title" style="display: none;"> Recherche et modification d'une réservation </h2>
+
+            <table class="get-table">
                 <thead>
                     <tr>
                         <th> Id de réservation </th>
@@ -55,29 +73,10 @@
                     </tr>
                 </thead>
 
-                <tbody id="get-all-reservations-table-body"></tbody>
-            </table>
-        </section>
-
-        <section id="get-one-reservation-section" class="CRUD-sections" style="display: none;">
-
-            <h2> Recherche et modification d'une réservation </h2>
-
-            <table class="get-one-table">
-                <thead>
-                    <tr>
-                        <th> ID de réservation </th>
-                        <th> Numéro de catway </th>
-                        <th> Nom du client </th>
-                        <th> Nom du bateau </th>
-                        <th> Date de début </th>
-                        <th> Date de fin </th>
-                    </tr>
-                </thead>
-                <tbody id="get-one-reservation-table-body"></tbody>
+                <tbody id="get-reservation-table-body"></tbody>
             </table>
 
-            <div id="update-div">
+            <div id="update-reservation-div" style="display: none;">
                 <form id="update-reservation-form">
                     <div>
                         <label for="new-start-date"> Nouvelle date de début </label>
@@ -96,7 +95,8 @@
             </div>
         </section>
 
-        <section id="create-one-reservation-section">
+        <section id="create-reservation-section" class="CRUD-sections" style="display: none;">
+
             <h2> Créer une réservation </h2>
 
             <form id="create-one-reservation-form">
