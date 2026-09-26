@@ -261,6 +261,8 @@ const deleteOneCatway = async () => {
 
         if(response.status === 200) {
 
+            document.getElementById('get-catways-section').style.display = 'none';
+
             sendMessage(data);
 
         } else {
@@ -324,6 +326,8 @@ const createOneCatway = async () => {
 
             const tableBody = document.getElementById('get-catways-table-body');
 
+            tableBody.textContent = '';
+            
             displayCatwayData(data, tableBody);
 
             /* Displays wanted section */
