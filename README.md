@@ -1,3 +1,10 @@
+#Avant-propos
+
+- Je n'ai pas réussi à utiliser Swagger à cause de l'architecture de mes routes, j'espère que le format markdown est suffisant.
+- Je n'avais pas compris que JSDOC n'équivalait pas à une documentation à part entière jusqu'au moment de rendre le devoir, donc le fichier JSDOC risque d'être beaucoup trop fourni (accessoirement je ne suis pas sûr de savoir ce que JSDOC est censé commenter (juste les contrôleurs backend, ou les routes / les scripts front-end également).
+- Les contrôleurs backend et les scripts front-end sont extrêmement redondants au niveau des vérifications. Si la double sécurité est une bonne chose tant mieux, sinon désolé par avance.
+- Malgré toutes mes tentatives de refactorisation, le code demeure extrêmement long pour assez peu de contenu, particulièrement sur les scripts front-end. Désolé. 
+
 # Documentation de l'API Port de Plaisance Russell
 
 Ceci est la documentation de l'API, contenant toutes les routes utilisés, ainsi que les vérifications et le formatage des données. 
