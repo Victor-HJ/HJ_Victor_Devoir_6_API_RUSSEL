@@ -108,6 +108,7 @@ input[type="number"],
 input[type="textarea"], 
 input[type='text'],
 input[type='date'],
+input[type='password'],
 select {
     width: 100%;
     padding: 0.5rem 1rem;
@@ -197,4 +198,16 @@ label{
   color : green;
   font-weight: 700;
   font-style: italic;
+}
+
+#actions-on-user-buttons{
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+#delete-user{
+  padding: 0.5rem 1rem;
+  margin-top: 0.3rem;
+  margin-bottom: 1rem;
 }

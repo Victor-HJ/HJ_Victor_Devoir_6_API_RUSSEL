@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8" name="Users" content="Page de gestion des utilisateurs de l'API">
     <title>Users</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
 
 <body>
     
     <header>
-        <h1 class="page-title"> Gestion des utilisateurs </h1>
+        <h1 class="main-title"> Gestion des utilisateurs </h1>
 
         <nav class="nav-menu">
-            <a href="/dashboard_view"> Tableau de bord </a>
-            <a href="/catways_view"> Catways </a>
-            <a href="/reservations_view"> Réservations </a>
-            <a href="/docs"> Documentation </a>
-            <a href="/" id="logout"> Déconnexion </a>
+            <a class="nav-button" href="/dashboard_view"> Tableau de bord </a>
+            <a class="nav-button" href="/catways_view"> Catways </a>
+            <a class="nav-button" href="/reservations_view"> Réservations </a>
+            <a class="nav-button" href="/docs"> Documentation </a>
+            <a class="nav-button" href="/" id="logout"> Déconnexion </a>
         </nav>
     </header>
 
@@ -28,7 +28,7 @@
             <button class="actions-menu-button" id="create-one-user-button"> Créer un utilisateur </button>
         </div>
 
-        <div id="response-message"></div>
+        <div class="message-div" id="response-message"></div>
 
         <form id="get-one-user-form" class="CRUD-sections" style="display:none;">
             <div id="searched-email">
@@ -36,15 +36,15 @@
                 <input type="text" name="user-email" id="email" required>
             </div>
 
-            <div id="submit-email">
-                <button class="submit-button"> Recherche </button>
+            <div class="search-btn-container" id="submit-email">
+                <button class= "btn"> Recherche </button>
             </div>
         </form>
 
-        <section id="get-users-section" class="CRUD-sections get-all-section" style="display: none;">
+        <section id="get-users-section" class="CRUD-sections" style="display: none;">
 
-            <h2 id="get-all-users-title" style="display: none;"> Liste des utilisateurs </h2>
-            <h2 id="get-one-user-title" style="display: none;"> Recherche et modification d'un utilisateur </h3>
+            <h2 class="little-titles" id="get-all-users-title" style="display: none;"> Liste des utilisateurs </h2>
+            <h2 class="little-titles" id="get-one-user-title" style="display: none;"> Recherche et modification d'un utilisateur </h3>
 
             <table class="get-table">
                 <thead>
@@ -59,17 +59,17 @@
                 <tbody id="get-users-table-body"></tbody>
             </table>
 
-            <div id="update-user-div">
+            <div class="actions-container" id="update-user-div">
 
                 <div id="actions-on-user-buttons">
-                    <button id="update-username"> Changer le nom d'utilisateur </button>
-                    <button id="update-password"> Changer le mot de passe </button>
-                    <button id="delete-user"> Supprimer l'utilisateur </button>
+                    <button class="btn" id="update-username"> Changer le nom d'utilisateur </button>
+                    <button class="btn" id="update-password"> Changer le mot de passe </button>
+                    <button class="del-btn" id="delete-user"> Supprimer l'utilisateur </button>
                 </div>
 
-                <div id="username-update-div" class="update-or-delete-divs" style="display: none;">
+                <div id="username-update-div" class="update-or-delete-divs actions-container" style="display: none;">
 
-                    <h3> Modifier le nom d'utilisateur </h4>
+                    <h2 class="little-titles"> Modifier le nom d'utilisateur </h2>
 
                     <form id="update-username-form">
 
@@ -81,14 +81,16 @@
                             <label for="password"> Entrez le mot de passe de l'utilisateur </label>
                             <input type="password" name="password" id="current-password" required>
                         </div>
+                        <div class="action-btn-div">
+                            <button class="btn" type="submit" id="submit-new-username"> Enregistrer </button>
+                        </div>
 
-                        <button type="submit" id="submit-new-username"> Enregistrer </button>
                     </form>
                 </div>
 
-                <div id="password-update-div" class="update-or-delete-divs" style="display: none;">
+                <div id="password-update-div" class="update-or-delete-divs actions-container" style="display: none;">
 
-                    <h3> Modifier le mot de passe </h3>
+                    <h2 class="little-titles"> Modifier le mot de passe </h2>
 
                     <form id="update-password-form">
 
@@ -104,15 +106,18 @@
                             <label for="old-password"> Veuillez entrer le mot de passe actuel </label>
                             <input type="password" name="old-password" id="old-password" required>
                         </div>
-
-                        <button type="submit" id="submit-new-password"> Enregistrer </button>
-
+                        <div class="action-btn-div">
+                            <button class="btn" type="submit" id="submit-new-password"> Enregistrer </button>
+                        </div>
                     </form>
                 </div>
             </div>
         </section>
 
-        <section id="create-one-user-section" class="CRUD-sections create-section" style="display: none;">
+        <section id="create-one-user-section" class="CRUD-sections" style="display: none;">
+
+            <h2 class="little-titles"> Créer un utilisateur </h2>
+
             <form id="create-user-form">
                 <div id="username-div">
                     <label for="wanted-username"> Nom d'utilisateur </label>
@@ -132,8 +137,9 @@
                         <input type="password" name="wanted-password-confirm" id="wanted-password-confirm" required>
                     </div>
                 </div>
-
-                <button type="submit" id="save-new-user-button"> Enregistrer l'utilisateur </button>
+                <div class="action-btn-div">
+                    <button class="btn" type="submit" id="save-new-user-button"> Enregistrer l'utilisateur </button>
+                </div>
             </form>
         </section>
     </main>

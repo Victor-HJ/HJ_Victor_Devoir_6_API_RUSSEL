@@ -83,10 +83,16 @@ const fetchGetAllUsers = async () => {
 
         } else {
 
+            document.getElementById('response-message').classList.remove('response-success');
+            document.getElementById('response-message').classList.add('response-error');
+
             sendMessage(data);
         }
 
     } catch (error) {
+
+        document.getElementById('response-message').classList.remove('response-success');
+        document.getElementById('response-message').classList.add('response-error');
 
         messageFromCatch(error);
     }
@@ -143,11 +149,17 @@ const fetchGetOneUser = async () => {
 
         } else {
 
+            document.getElementById('response-message').classList.remove('response-success');
+            document.getElementById('response-message').classList.add('response-error');
+
             sendMessage(data);
 
         }
 
     } catch (error) {
+
+        document.getElementById('response-message').classList.remove('response-success');
+        document.getElementById('response-message').classList.add('response-error');
 
         messageFromCatch(error);
 
@@ -218,15 +230,24 @@ const fetchUpdatePassword = async () => {
 
     if(response.status === 200){
 
+        document.getElementById('response-message').classList.add('response-success');
+        document.getElementById('response-message').classList.remove('response-error');
+
         sendMessage('Mot de passe modifié avec succès');
 
     } else {
+
+        document.getElementById('response-message').classList.remove('response-success');
+        document.getElementById('response-message').classList.add('response-error');
 
         sendMessage(data);
 
     }
 
    } catch (error) {
+
+        document.getElementById('response-message').classList.remove('response-success');
+        document.getElementById('response-message').classList.add('response-error');
 
         messageFromCatch(error);
 
@@ -291,6 +312,9 @@ const fetchUpdateUsername = async () => {
 
         if(response.status === 200) {
 
+            document.getElementById('response-message').classList.add('response-success');
+            document.getElementById('response-message').classList.remove('response-error');
+
             sendMessage("Nom d'utilisateur modifié avec succès");
 
             /* Avoids sending another get request, may as well perform a front-end update */
@@ -306,11 +330,17 @@ const fetchUpdateUsername = async () => {
 
         } else {
 
+            document.getElementById('response-message').classList.remove('response-success');
+            document.getElementById('response-message').classList.add('response-error');
+
             sendMessage(data);
 
         }
 
     } catch(error) {
+
+        document.getElementById('response-message').classList.remove('response-success');
+        document.getElementById('response-message').classList.add('response-error');
 
         messageFromCatch(error);
 
@@ -380,17 +410,26 @@ const fetchCreateOneUser = async () => {
 
                 document.getElementById('update-user-div').style.display = 'block';
 
+                document.getElementById('response-message').classList.add('response-success');
+                document.getElementById('response-message').classList.remove('response-error');
+
                 sendMessage('Utilisateur créé avec succès');
 
             } 
 
         } else {
 
+            document.getElementById('response-message').classList.remove('response-success');
+            document.getElementById('response-message').classList.add('response-error');
+
             sendMessage(data);
         }
 
     } catch (error) {
-        
+
+        document.getElementById('response-message').classList.remove('response-success');
+        document.getElementById('response-message').classList.add('response-error');
+
         messageFromCatch(error);
 
         }
@@ -431,6 +470,9 @@ const fetchDeleteOneUser = async () => {
 
         if(response.status === 200){
 
+            document.getElementById('response-message').classList.add('response-success');
+            document.getElementById('response-message').classList.remove('response-error');
+
             sendMessage('Utilisateur supprimé');
 
             const hide = document.getElementById('get-users-section');
@@ -439,10 +481,16 @@ const fetchDeleteOneUser = async () => {
 
         } else {
 
+            document.getElementById('response-message').classList.remove('response-success');
+            document.getElementById('response-message').classList.add('response-error');
+
             sendMessage(data);
         }
     } catch (error) {
 
+        document.getElementById('response-message').classList.remove('response-success');
+        document.getElementById('response-message').classList.add('response-error');
+        
         messageFromCatch(error);
 
     }
