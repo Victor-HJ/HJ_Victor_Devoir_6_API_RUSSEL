@@ -1,6 +1,6 @@
 # Documentation de l'API Port de Plaisance Russell
 
-Ceci est la documentation de l'API. Avant tout chose, il convient de noter que toute requête envoyant des données doit inclure:  `Content-Type: application/json`.
+Ceci est la documentation de l'API, contenant toutes les routes utilisés, ainsi que les vérifications et le formatage des données. 
 
 ---
 
