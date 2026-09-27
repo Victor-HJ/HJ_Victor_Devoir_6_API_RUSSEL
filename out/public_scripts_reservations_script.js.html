@@ -127,6 +127,10 @@ const fetchGetAllReservations = async () => {
             /* Displays the wanted section */
             selectSection('get-reservation-section');
 
+            document.getElementById('get-all-title').style.display = 'block';
+            document.getElementById('get-one-title').style.display = 'none';
+            document.getElementById('update-reservation-div').style.display = 'none';
+
             document.getElementById('response-message').textContent = '';
 
             const reservationTableBody = document.getElementById('get-reservation-table-body');
@@ -142,11 +146,17 @@ const fetchGetAllReservations = async () => {
 
         } else {
 
+            document.getElementById('response-message').classList.remove('response-success');
+            document.getElementById('response-message').classList.add('response-error');
+
             sendMessage(data)
 
         }
 
     } catch (error) {
+
+        document.getElementById('response-message').classList.remove('response-success');
+        document.getElementById('response-message').classList.add('response-error');
 
         messageFromCatch(error);
 
@@ -187,6 +197,10 @@ const fetchGetAllReservationsFromCatway = async () => {
 
         if(response.status === 200) {
 
+            document.getElementById('get-all-title').style.display = 'block';
+            document.getElementById('get-one-title').style.display = 'none';
+            document.getElementById('update-reservation-div').style.display = 'none';
+
             /* Displays the wanted section */
             selectSection('get-reservation-section');
 
@@ -205,11 +219,17 @@ const fetchGetAllReservationsFromCatway = async () => {
 
         } else {
 
+            document.getElementById('response-message').classList.remove('response-success');
+            document.getElementById('response-message').classList.add('response-error');
+
             sendMessage(data);
 
         }
 
     } catch (error) {
+
+        document.getElementById('response-message').classList.remove('response-success');
+        document.getElementById('response-message').classList.add('response-error');
 
         messageFromCatch(error);
 
@@ -266,6 +286,8 @@ const fetchGetOneReservation = async () => {
             /* Add displays of wanted div, which was not rendered properly during testing */
             selectSubDiv('update-reservation-div');
 
+            document.getElementById('get-one-title').style.display = 'block';
+            document.getElementById('get-all-title').style.display = 'none';
             document.getElementById('response-message').textContent = '';
 
             const reservationTableBody = document.getElementById('get-reservation-table-body');
@@ -279,12 +301,18 @@ const fetchGetOneReservation = async () => {
 
         } else {
 
+            document.getElementById('response-message').classList.remove('response-success');
+            document.getElementById('response-message').classList.add('response-error');
+
             sendMessage(data);
 
         }
 
     } catch(error) {
         
+        document.getElementById('response-message').classList.remove('response-success');
+        document.getElementById('response-message').classList.add('response-error');
+
         messageFromCatch(error);
 
     }
@@ -348,6 +376,9 @@ const fetchUpdateReservation = async () => {
 
         if(response.status === 201){
 
+            document.getElementById('response-message').classList.add('response-success');
+            document.getElementById('response-message').classList.remove('response-error');
+
             sendMessage('Réservation modifiée avec succès');
 
             const startCell = document.querySelector('#get-reservation-table-body tr td:nth-child(5)');
@@ -362,11 +393,17 @@ const fetchUpdateReservation = async () => {
 
         } else {
 
+            document.getElementById('response-message').classList.remove('response-success');
+            document.getElementById('response-message').classList.add('response-error');
+
             sendMessage(data);
 
         }
 
     } catch (error) {
+
+        document.getElementById('response-message').classList.remove('response-success');
+        document.getElementById('response-message').classList.add('response-error');
 
         messageFromCatch(error);
 
@@ -462,17 +499,26 @@ const fetchCreateReservation = async () => {
                 tableReservationBody.textContent = '';
             }
 
+            document.getElementById('response-message').classList.add('response-success');
+            document.getElementById('response-message').classList.remove('response-error');
+
             sendMessage('Réservation créée avec succès');
 
             displayReservationData(data, tableReservationBody);
 
         } else {
 
+            document.getElementById('response-message').classList.remove('response-success');
+            document.getElementById('response-message').classList.add('response-error');
+
             sendMessage(data);
 
         }
 
     } catch(error) {
+
+        document.getElementById('response-message').classList.remove('response-success');
+        document.getElementById('response-message').classList.add('response-error');
 
         messageFromCatch(error);
 
@@ -515,6 +561,9 @@ const fetchDeleteOneReservation = async () => {
 
         if(response.status === 200) {
 
+            document.getElementById('response-message').classList.add('response-success');
+            document.getElementById('response-message').classList.remove('response-error');
+
             sendMessage('Réservation supprimée');
 
             const hide = document.getElementById('get-reservation-section');
@@ -523,11 +572,17 @@ const fetchDeleteOneReservation = async () => {
 
         } else {
 
+            document.getElementById('response-message').classList.remove('response-success');
+            document.getElementById('response-message').classList.add('response-error');
+
             sendMessage(data);
 
         }
 
     } catch (error) {
+        
+        document.getElementById('response-message').classList.remove('response-success');
+        document.getElementById('response-message').classList.add('response-error');
 
         messageFromCatch(error);
 
@@ -671,7 +726,7 @@ document.querySelector('#logout').addEventListener('click', (e) => {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Sat Sep 26 2026 22:22:05 GMT+0200 (heure d’été d’Europe centrale)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Sun Sep 27 2026 15:52:56 GMT+0200 (heure d’été d’Europe centrale)
 </footer>
 
 <script> prettyPrint(); </script>
