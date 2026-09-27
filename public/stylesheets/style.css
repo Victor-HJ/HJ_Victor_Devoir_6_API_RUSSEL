@@ -107,6 +107,7 @@ label {
 input[type="number"], 
 input[type="textarea"], 
 input[type='text'],
+input[type='date'],
 select {
     width: 100%;
     padding: 0.5rem 1rem;

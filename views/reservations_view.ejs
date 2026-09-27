@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8" name="Réservations" content="Page de gestion des réservations">
     <title>Réservations</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
 
 <body>
     <header>
-        <h1> Gestion des réservations </h1>
+        <h1 class="main-title"> Gestion des réservations </h1>
 
         <nav class="nav-menu">
-            <a href="/dashboard_view"> Dashboard </a>
-            <a href="/catways_view"> Catways </a>
-            <a href="/users_view"> Utilisateurs </a>
-            <a href="/docs"> Documentation </a>
-            <a href="/" id="logout"> Déconnexion </a>
+            <a class="nav-button" href="/dashboard_view"> Dashboard </a>
+            <a class="nav-button" href="/catways_view"> Catways </a>
+            <a class="nav-button" href="/users_view"> Utilisateurs </a>
+            <a class="nav-button" href="/docs"> Documentation </a>
+            <a class="nav-button" href="/" id="logout"> Déconnexion </a>
         </nav>
     </header>
 
@@ -27,7 +27,7 @@
             <button class="actions-menu-button" id="create-one-reservation-button"> Créer une réservation </button>
         </div>
 
-        <div id="response-message"></div>
+        <div class="message-div" id="response-message"></div>
 
         <form id="get-one-reservation-form" class="CRUD-sections" style="display: none;">
 
@@ -40,8 +40,8 @@
                 <input type="text" name="id" id="id" required>
             </div>
 
-            <div>
-                <button id="submit-research"> Recherche </button>
+            <div class="search-btn-container">
+                <button id="submit-research" class="btn"> Recherche </button>
             </div>
         </form>
 
@@ -51,15 +51,15 @@
                 <input type="number" name="get-all-for-catway" id="get-all-for-catway" required>
             </div>
 
-            <div>
-                <button id="submit-catway-number"> Recherche </button>
+            <div class="search-btn-container">
+                <button id="submit-catway-number" class="btn"> Recherche </button>
             </div>
         </form>
 
         <section id="get-reservation-section" class="CRUD-sections" style="display: none;">
 
-            <h2 id="get-all-title" style="display: none;"> Liste des réservations </h2>
-            <h2 id="get-one-title" style="display: none;"> Recherche et modification d'une réservation </h2>
+            <h2 class="little-titles" id="get-all-title" style="display: none;"> Liste des réservations </h2>
+            <h2 class="little-titles" id="get-one-title" style="display: none;"> Recherche et modification d'une réservation </h2>
 
             <table class="get-table">
                 <thead>
@@ -76,7 +76,7 @@
                 <tbody id="get-reservation-table-body"></tbody>
             </table>
 
-            <div id="update-reservation-div" style="display: none;">
+            <div class="actions-container" id="update-reservation-div" style="display: none;">
                 <div>
                     <form id="update-reservation-form">
                         <div>
@@ -87,19 +87,21 @@
                             <label for="new-end-date"> Nouvelle date de fin </label>
                             <input type="date" id="new-end-date" name="new-end-date" required>
                         </div>
-                        <button id="confirm-update-reservation"> Confirmer </button>
+                        <div class="action-btn-div">
+                            <button id="confirm-update-reservation" class="btn"> Confirmer </button>
+                        </div>
                     </form>
                 </div>
 
-                <div>
-                    <button id="delete-reservation-button"> Supprimer la réservation </button>
+                <div class="delete-btn-div">
+                    <button id="delete-reservation-button" class="del-btn"> Supprimer la réservation </button>
                 </div>
             </div>
         </section>
 
         <section id="create-reservation-section" class="CRUD-sections" style="display: none;">
 
-            <h2> Créer une réservation </h2>
+            <h2 class="little-titles"> Créer une réservation </h2>
 
             <form id="create-one-reservation-form">
                 <div>
@@ -122,8 +124,8 @@
                     <label for="end-date"> Date de fin </label>
                     <input type="date" name="end-date" id="end-date" required>
                 </div>
-                <div>
-                    <button type="submit"> Enregistrer </button>
+                <div class="action-btn-div">
+                    <button type="submit" class="btn"> Enregistrer </button>
                 </div>
             </form>
         </section>
