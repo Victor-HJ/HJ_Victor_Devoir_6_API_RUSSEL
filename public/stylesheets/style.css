@@ -211,3 +211,10 @@ label{
   margin-top: 0.3rem;
   margin-bottom: 1rem;
 }
+
+#dashboard-user-props{
+  margin-top: 1rem;
+  color : white;
+  display: flex;
+  gap: 1rem;
+}
