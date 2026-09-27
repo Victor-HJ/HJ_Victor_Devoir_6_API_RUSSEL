@@ -1,5 +1,5 @@
 #Avant-propos
-
+- JSDOC est accessible via l'URL /jsdoc, /docs étant destiné à afficher la documentation. Je ne sais pas si l'on était censés ajouter un lien pour JSDOC également. 
 - Je n'ai pas réussi à utiliser Swagger à cause de l'architecture de mes routes, j'espère que le format markdown est suffisant.
 - Je n'avais pas compris que JSDOC n'équivalait pas à une documentation à part entière jusqu'au moment de rendre le devoir, donc le fichier JSDOC risque d'être beaucoup trop fourni (accessoirement je ne suis pas sûr de savoir ce que JSDOC est censé commenter (juste les contrôleurs backend, ou les routes / les scripts front-end également)?
 - Les contrôleurs backend et les scripts front-end sont extrêmement redondants au niveau des vérifications. Si la double sécurité est une bonne chose tant mieux, sinon désolé par avance.
