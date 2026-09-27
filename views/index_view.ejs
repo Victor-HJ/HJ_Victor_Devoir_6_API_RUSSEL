@@ -3,42 +3,46 @@
 <head>
     <meta charset="UTF-8" name="API_Russel" content="Page de connexion de l'API">
     <title> API Russel </title>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/stylesheets/style_index.css">
 </head>
 
-<div id="title_div"> 
-    <h1> Bienvenue </h1>
-</div>
-
-<div id="presentation_div">
-     <p> Vous êtes sur l'API du port de plaisance Russell, veuillez vous connecter. </p>
-</div>
-
-<div>
-    <h2> Connexion </h2>
-
-    <div>
-        <form id="login_form">
-            <div>
-                <label for="email">Email</label>
-                <input type="text" name="email" id="email">
-            </div>
-
-            <div>
-                <label for="password">Mot de passe</label>
-                <input type="password" name="password" id="password">
-            </div>
-
-            <button type="submit">Se connecter</button>
-        </form>
+<header>
+    <div id="title-API"> 
+        <h1> Bienvenue sur l'API du port de plaisance Russell </h1>
     </div>
 
-    <div id="error" style="color : red; font-weight: 700;"></div>
-</div>
+</header>
 
-<div>
-    <a href="./docs"> La doc </a>
-</div>
+<main>
+    <section id="connect-section">
+        <h2 class="connect-title"> Connexion </h2>
+
+        <div>
+            <form id="login_form">
+                <div class="form-div">
+                    <input type="text" name="email" id="email" placeholder="Votre email">
+                </div>
+
+                <div class="form-div">
+                    <input type="password" name="password" id="password" placeholder="Votre mot de passe">
+                </div>
+                <div id="connect-btn-div">
+                    <button type="submit">Se connecter</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="doc-btn-div">
+                    <a href="./docs"> La documentation </a>
+        </div>
+
+    <div id="error" style="color : red; font-weight: 700;"></div>
+    </section>
+    <section id="photo-section">
+        <img src="/images/marina-photo.png" alt="Photo du port de plaisance" id="illustration">
+    </section>
+</main>
+
 
 <script>
 
