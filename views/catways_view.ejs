@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8" name="Catways" content="Page de gestion des catways">
     <title>Catways</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
 
 <body>
     <header>
 
-        <h1 id="catways-management-title"> Gestion des catways </h1>
+        <h1 class="main-title" id="catways-management-title"> Gestion des catways </h1>
 
          <nav class="nav-menu">
-            <a href="/dashboard_view"> Tableau de bord </a>
-            <a href="/users_view"> Utilisateurs </a>
-            <a href="/reservations_view"> Réservations </a>
-            <a href="/docs"> Documentation </a>
-            <a href="/" id="logout"> Déconnexion </a>
+            <a class="nav-button" href="/dashboard_view"> Tableau de bord </a>
+            <a class="nav-button" href="/users_view"> Utilisateurs </a>
+            <a class="nav-button" href="/reservations_view"> Réservations </a>
+            <a class="nav-button" href="/docs"> Documentation </a>
+            <a class="nav-button" href="/" id="logout"> Déconnexion </a>
         </nav>
 
     </header>
@@ -28,7 +28,7 @@
             <button class="actions-menu-button" id="create-one-catway-button"> Créer un catway </button>
         </div>
 
-        <div id="response-message"></div>
+        <div class="message-div" id="response-message"></div>
 
         <form id="get-one-catway-form" class="CRUD-sections" style="display: none;">
 
@@ -37,16 +37,16 @@
                 <input type="number" name="catwayNumber" id="number" required>
             </div>
 
-            <div id="submit-number">
-                <button class="submit-button"> Recherche </button>
+            <div class="search-btn-container" id="submit-number">
+                <button class="btn"> Recherche </button>
             </div>
 
         </form>
 
-        <section id="get-catways-section" class="get-all-section CRUD-sections" style="display: none;">
+        <section id="get-catways-section" class="CRUD-sections" style="display: none;">
 
-            <h2 id="get-all-catways-title" style="display: none;"> Liste des catways </h2>
-            <h2 id="get-one-catway-title" style="display: none;"> Recherche et modification d'un catway </h2>
+            <h2 class="little-titles" id="get-all-catways-title" style="display: none;"> Liste des catways </h2>
+            <h2 class="little-titles" id="get-one-catway-title" style="display: none;"> Recherche et modification d'un catway </h2>
 
             <table class="get-table">
                 <thead>
@@ -62,33 +62,39 @@
                 <tbody id="get-catways-table-body"></tbody>
             </table>
 
-            <div id="update-catway-div" style="display: none;">
+            <div class="actions-container" id="update-catway-div" style="display: none;">
 
                 <div>
                     <form id="update-catway-form">
+                        <div>
 
-                        <input type="textarea" id="update-catway-text">
+                            <label for="new-catway-state"> Modifier l'état</label>
+                            <input name="new-catway-state" type="textarea" id="update-catway-text">
 
-                        <button id="update-catway-confirm" class="buttons"> Modifier l'état </button>
+                        </div>
+                        <div class="action-btn-div">
 
+                            <button id="update-catway-confirm" class="btn"> Modifier l'état </button>
+
+                        </div>
                     </form>
                 </div>
 
-                <div>
+                <div class="delete-btn-div">
 
-                    <button id="delete-catway-button"> Supprimer le catway </button>
+                    <button id="delete-catway-button" class="del-btn"> Supprimer le catway </button>
 
                 </div>
             </div>
         </section>
 
-        <section id="create-one-catway-section" class="create-one-section CRUD-sections" style="display: none;">
+        <section id="create-one-catway-section" class="CRUD-sections" style="display: none;">
 
-            <h3> Créer un catway </h3>
+            <h2 class="little-titles"> Créer un catway </h2>
 
             <form id="create-one-catway-form">
 
-                <div class="create-form-inner-div">
+                <div>
 
                     <label for="catway-number"> Numéro du catway </label>
 
@@ -96,7 +102,7 @@
 
                 </div>
 
-                <div class="create-form-inner-div">
+                <div>
 
                     <label for="catway-type"> Type du catway </label>
 
@@ -107,16 +113,16 @@
 
                 </div>
 
-                <div class="create-form-inner-div">
+                <div>
 
                     <label for="catway-state"> Etat du catway </label>
                     <input type="textarea" name="catway-state" id="create-state" required>
 
                 </div>
 
-                <div class="create-form-inner-div">
+                <div class="action-btn-div">
 
-                    <button type="submit"> Créer le catway </button>
+                    <button type="submit" class="btn"> Créer le catway </button>
 
                 </div>
             </form>

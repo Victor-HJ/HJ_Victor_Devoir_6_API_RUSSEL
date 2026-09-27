@@ -88,11 +88,17 @@ const fetchGetAllCatways = async () => {
 
         } else {
 
-           sendMessage(data);
+            document.getElementById('response-message').classList.remove('response-success');
+            document.getElementById('response-message').classList.add('response-error');
+
+            sendMessage(data);
 
         }
                 
     } catch (error) {
+
+        document.getElementById('response-message').classList.remove('response-success');
+        document.getElementById('response-message').classList.add('response-error');
 
         messageFromCatch(error);
 
@@ -126,9 +132,12 @@ const fetchOneCatway = async () => {
         /* Resets table to prevent the display of several catways at once */
         oneCatway.textContent = '';
 
-        selectSection('get-catways-section')
+        /* Is necessary, otherwise the thead appears if a getOne request is sent after a getAll*/
+        document.getElementById('get-catways-section').style.display = 'none';
 
         if(response.status === 200) {
+
+            selectSection('get-catways-section')
 
             document.getElementById('get-one-catway-title').style.display = 'block';
             document.getElementById('get-all-catways-title').style.display = 'none';
@@ -142,11 +151,17 @@ const fetchOneCatway = async () => {
 
         } else {
 
+            document.getElementById('response-message').classList.remove('response-success');
+            document.getElementById('response-message').classList.add('response-error');
+
             sendMessage(data);
 
         }
 
     } catch (error) {
+
+        document.getElementById('response-message').classList.remove('response-success');
+        document.getElementById('response-message').classList.add('response-error');
 
         messageFromCatch(error);
 
@@ -207,18 +222,23 @@ const updateOneCatway = async () => {
                         
             }
 
+            document.getElementById('response-message').classList.add('response-success');
+            document.getElementById('response-message').classList.remove('response-error');
             sendMessage('Catway modifié avec succès');
 
         } else {
+
+            document.getElementById('response-message').classList.remove('response-success');
+            document.getElementById('response-message').classList.add('response-error');
 
             sendMessage(data);
 
         }
 
-        const resetForm = document.querySelector('#update-catway-form');
-        resetForm.reset();
-
     } catch (error) {
+
+        document.getElementById('response-message').classList.remove('response-success');
+        document.getElementById('response-message').classList.add('response-error');
 
         messageFromCatch(error);
     }
@@ -263,15 +283,23 @@ const deleteOneCatway = async () => {
 
             document.getElementById('get-catways-section').style.display = 'none';
 
+            document.getElementById('response-message').classList.add('response-success');
+            document.getElementById('response-message').classList.remove('response-error');
             sendMessage(data);
 
         } else {
+
+            document.getElementById('response-message').classList.remove('response-success');
+            document.getElementById('response-message').classList.add('response-error');
 
             sendMessage(data);
 
         }
 
     } catch (error) {
+
+        document.getElementById('response-message').classList.remove('response-success');
+        document.getElementById('response-message').classList.add('response-error');
 
         messageFromCatch(error);
 
@@ -336,9 +364,15 @@ const createOneCatway = async () => {
             /* Displays the update section (if an update is wanted right away) */
             selectSubDiv('update-catway-div');
 
+            document.getElementById('response-message').classList.add('response-success');
+            document.getElementById('response-message').classList.remove('response-error');
+
             sendMessage('Catway créé avec succès');
 
         } else {
+
+            document.getElementById('response-message').classList.remove('response-success');
+            document.getElementById('response-message').classList.add('response-error');
 
             sendMessage(data);
         }
@@ -348,6 +382,9 @@ const createOneCatway = async () => {
         resetForm.reset();
 
     } catch (error) {
+
+        document.getElementById('response-message').classList.remove('response-success');
+        document.getElementById('response-message').classList.add('response-error');
 
         messageFromCatch(error);
 
@@ -405,6 +442,7 @@ const getOne = document.querySelector('#get-one-catway-button');
     const researchForm = document.getElementById('get-one-catway-form');
 
     researchForm.style.display = 'block';
+    researchForm.reset();
 
     const message = document.getElementById('response-message');
 
@@ -433,6 +471,8 @@ createOne.addEventListener('submit', (e) => {
     e.preventDefault();
 
     createOneCatway();
+
+    createOne.reset();
 });
 
 
