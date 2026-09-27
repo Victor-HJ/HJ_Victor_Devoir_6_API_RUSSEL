@@ -23,7 +23,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use('/docs', express.static(path.join(__dirname, 'out')));
+app.use('/jsdoc', express.static(path.join(__dirname, 'out')));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
